@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "checking permissions for nagios"
+find /opt/nagios \! -user ${NAGIOS_USER} -exec chown ${NAGIOS_USER}:${NAGIOS_GROUP} '{}' 
+
+
+exec "${NAGIOS_HOME}/bin/nagios" "${NAGIOS_HOME}/etc/nagios.cfg"

@@ -1,0 +1,9 @@
+#!/bin/sh
+. /usr/sbin/envvars
+
+# TODO Check about cache
+# . /usr/sbin/htcacheclean
+
+export TZ="${NAGIOS_TIMEZONE}"
+
+exec /usr/sbin/httpd -D NO_DETACH
