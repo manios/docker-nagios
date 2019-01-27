@@ -37,7 +37,7 @@ RUN  addgroup -S ${NAGIOS_GROUP} && \
        apk update && \
        apk add --no-cache git build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc git curl autoconf \
-                        unzip gettext-dev linux-headers openssl-dev \
+                        unzip gettext-dev linux-headers openssl-dev procps \
                         apache2 apache2-utils php5 php5-gd php5-cli runit parallel ssmtp
 
 # Download Nagios core, plugins and nrpe sources                        
@@ -127,8 +127,7 @@ RUN    echo -e "\n\n =====================\n  Configure NRPE\n =================
 RUN export DOC_ROOT="DocumentRoot $(echo $NAGIOS_HOME/share)"                                        && \
     sed -i "s,DocumentRoot.*,$DOC_ROOT," /etc/apache2/httpd.conf                                     && \
     sed -i "s|^ *ScriptAlias.*$|ScriptAlias /cgi-bin $NAGIOS_HOME/sbin|g" /etc/apache2/httpd.conf    && \
-    sed -i 's/^#LoadModule mpm_event_module/LoadModule mpm_event_module/' /etc/apache2/httpd.conf    && \
-    sed -i 's/^\(LoadModule mpm_prefork_module.*\)$/#\1/' /etc/apache2/httpd.conf                    && \
+    sed -i 's/^\(.*\)#\(LoadModule cgi_module\)\(.*\)/\1\2\3/' /etc/apache2/httpd.conf               && \
     echo "ServerName ${NAGIOS_FQDN}" >> /etc/apache2/httpd.conf
 
 RUN sed -i 's,/bin/mail,/usr/bin/mail,' ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
@@ -146,7 +145,13 @@ RUN mkdir -p /orig/apache2                     && \
 ### START OF ACTUAL DOCKERFILE ###
 ### ========================== ###
 
+# TODO Remove before flight
+FROM manios/nagios:bu as sourcebuilder
+RUN echo OK 
+# END TODO Remove before flight
+
 FROM mybase
+
 MAINTAINER Christos Manios <maniopaido@gmail.com>
 
 LABEL name="Nagios" \
@@ -170,7 +175,7 @@ RUN  addgroup -S ${NAGIOS_GROUP} && \
        apk update && \
        apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                           php5 php5-gd php5-cli runit parallel ssmtp \
-                          libltdl libintl openssl-dev php7-apache2
+                          libltdl libintl openssl-dev php7-apache2 procps
 
 ADD overlay/ /
 
@@ -185,17 +190,12 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
             ln -s /etc/sv/* /etc/service              && \
                                                          \
             : '# Copy initial settings files'         && \
-            mkdir -p /orig/var                        && \
-            mkdir -p /orig/etc/apache2                && \
             chown -R nagios:nagios ${NAGIOS_HOME}     && \
-            echo OK                                   && \
+            : '# Create special dirs'                 && \
             mkdir /run/apache2                        && \
-            mkdir -p /var/spool/rsyslog
-            # echo "ServerName ${NAGIOS_FQDN}" >> ${NAGIOS_HOME}/apache2/httpd.conf  && \
-            # cp -r ${NAGIOS_HOME}/apache2 /etc/apache2    && \
-            # cp -Rp ${NAGIOS_HOME}/var/* /orig/var/    && \
-            # cp -Rp ${NAGIOS_HOME}/etc/* /orig/etc/    && \
-            # cp -Rp /etc/apache2         /etc/apache2  && \
+            mkdir -p /var/spool/rsyslog               && \
+            : '# Copy Apache configuration'           && \
+            cp -Rp /orig/apache2/* /etc/apache2
             
             
 EXPOSE 80
@@ -219,3 +219,4 @@ CMD [ "/usr/local/bin/start_nagios" ]
 
 
 # https://askubuntu.com/questions/453377/how-to-enable-event-mpm-apache-2-4-on-ubuntu-14-04-with-thread-safe-php
+# https://github.com/gliderlabs/docker-alpine/issues/173
