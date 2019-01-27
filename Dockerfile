@@ -2,8 +2,8 @@ FROM alpine:latest as mybase
 
 # https://github.com/moby/moby/issues/37345
 
-# docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f && time docker build -t manios/nagios:bu .
-# docker run -it --rm  manios/nagios:bu /bin/sh
+# docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f &&  time docker build -t manios/nagios:bu .
+# docker run -p 8080:80 -it --rm --name agios manios/nagios:bu /bin/sh
 
 # docker run --rm -u $(id -u):$(id -g) -v $PWD:/data vimagick/youtube-dl --limit-rate 150K http://streamcloud.eu/vtc949crkb3g/GR_God_Willing_2015.mp4.html
 
@@ -136,6 +136,11 @@ RUN sed -i 's,/bin/mail,/usr/bin/mail,' ${NAGIOS_HOME}/etc/objects/commands.cfg 
 
 RUN echo "use_timezone=${NAGIOS_TIMEZONE}" >> ${NAGIOS_HOME}/etc/nagios.cfg
 
+# Copy original configuration to /orig directory
+RUN mkdir -p /orig/apache2                     && \
+    cp -r /etc/apache2/*  /orig/apache2        && \
+    cp -r ${NAGIOS_HOME}/etc  /orig/etc        && \
+    cp -r ${NAGIOS_HOME}/var  /orig/var         
 
 ### ========================== ###
 ### START OF ACTUAL DOCKERFILE ###
@@ -157,7 +162,7 @@ RUN mkdir -p ${NAGIOS_HOME}  && \
 WORKDIR ${NAGIOS_HOME}
 COPY --from=sourcebuilder ${NAGIOS_HOME} ${NAGIOS_HOME}
 
-COPY --from=sourcebuilder /etc/apache2 /etc/apache2
+COPY --from=sourcebuilder /orig /orig
 
 RUN  addgroup -S ${NAGIOS_GROUP} && \
        addgroup -S ${NAGIOS_CMDGROUP} && \
@@ -165,7 +170,7 @@ RUN  addgroup -S ${NAGIOS_GROUP} && \
        apk update && \
        apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                           php5 php5-gd php5-cli runit parallel ssmtp \
-                          libltdl
+                          libltdl libintl openssl-dev php7-apache2
 
 ADD overlay/ /
 
@@ -178,18 +183,20 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
                                                          \
             : '# enable all runit services'           && \
             ln -s /etc/sv/* /etc/service              && \
+                                                         \
             : '# Copy initial settings files'         && \
             mkdir -p /orig/var                        && \
             mkdir -p /orig/etc/apache2                && \
-            cp -Rp ${NAGIOS_HOME}/var/* /orig/var/    && \
-            cp -Rp ${NAGIOS_HOME}/etc/* /orig/etc/    && \
-            cp -Rp /etc/apache2         /etc/apache2  && \
             chown -R nagios:nagios ${NAGIOS_HOME}     && \
             echo OK                                   && \
             mkdir /run/apache2                        && \
             mkdir -p /var/spool/rsyslog
             # echo "ServerName ${NAGIOS_FQDN}" >> ${NAGIOS_HOME}/apache2/httpd.conf  && \
             # cp -r ${NAGIOS_HOME}/apache2 /etc/apache2    && \
+            # cp -Rp ${NAGIOS_HOME}/var/* /orig/var/    && \
+            # cp -Rp ${NAGIOS_HOME}/etc/* /orig/etc/    && \
+            # cp -Rp /etc/apache2         /etc/apache2  && \
+            
             
 EXPOSE 80
 
@@ -209,3 +216,6 @@ CMD [ "/usr/local/bin/start_nagios" ]
 # NAGIOS_HOME='/opt/nagios' && \
 # sed -i "s|^ *ScriptAlias.*$|ScriptAlias /cgi-bin $NAGIOS_HOME/sbin|g" sbob.conf
 
+
+
+# https://askubuntu.com/questions/453377/how-to-enable-event-mpm-apache-2-4-on-ubuntu-14-04-with-thread-safe-php
