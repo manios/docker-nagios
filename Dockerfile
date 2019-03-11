@@ -18,7 +18,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_BRANCH=nagios-4.4.2 \
+    NAGIOS_BRANCH=nagios-4.4.3 \
     NAGIOS_PLUGINS_BRANCH=release-2.2.1 \
     NRPE_BRANCH=nrpe-3.2.1 \
     APACHE_LOCK_DIR=/var/run \
@@ -38,7 +38,7 @@ RUN  addgroup -S ${NAGIOS_GROUP} && \
        apk add --no-cache git build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc git curl autoconf \
                         unzip gettext-dev linux-headers openssl-dev procps \
-                        apache2 apache2-utils php5 php5-gd php5-cli runit parallel ssmtp
+                        apache2 apache2-utils php7 php7-gd php7-cli runit parallel ssmtp
 
 # Download Nagios core, plugins and nrpe sources                        
 RUN    cd /tmp && \
@@ -131,7 +131,13 @@ RUN export DOC_ROOT="DocumentRoot $(echo $NAGIOS_HOME/share)"                   
     echo "ServerName ${NAGIOS_FQDN}" >> /etc/apache2/httpd.conf
 
 RUN sed -i 's,/bin/mail,/usr/bin/mail,' ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
-    sed -i 's,/usr/usr,/usr,'           ${NAGIOS_HOME}/etc/objects/commands.cfg
+    sed -i 's,/usr/usr,/usr,'           ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
+                                                                                    \  
+    : '# Modify Nagios mail commands in order to work with SSMTP'         && \
+    sed -i 's/^.*command_line.*Host Alert.*$//g' /opt/nagios/etc/objects/commands.cfg && \
+    sed -i 's/^.*command_line.*Service Alert.*$//g' /opt/nagios/etc/objects/commands.cfg && \
+    sed -i '/notify-host-by-email/a command_line /usr/bin/printf "%b" "Subject: $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$\\n\\n***** Nagios *****\\n\\nNotification Type: $NOTIFICATIONTYPE$\\nHost: $HOSTNAME$\\nState: $HOSTSTATE$\\nAddress: $HOSTADDRESS$\\nInfo: $HOSTOUTPUT$\\n\\nDate/Time: $LONGDATETIME$\\n" | /usr/sbin/sendmail -v $CONTACTEMAIL$' ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
+    sed -i '/notify-service-by-email/a command_line /usr/bin/printf "%b" "Subject: $NOTIFICATIONTYPE$ Service Alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$\\n\\n***** Nagios *****\\n\\nNotification Type: $NOTIFICATIONTYPE$\\n\\nService: $SERVICEDESC$\\nHost: $HOSTALIAS$\\nAddress: $HOSTADDRESS$\\nState: $SERVICESTATE$\\n\\nDate/Time: $LONGDATETIME$\\n\\nAdditional Info:\\n\\n$SERVICEOUTPUT$\\n" | /usr/sbin/sendmail -v $CONTACTEMAIL$' ${NAGIOS_HOME}/etc/objects/commands.cfg
 
 RUN echo "use_timezone=${NAGIOS_TIMEZONE}" >> ${NAGIOS_HOME}/etc/nagios.cfg
 
@@ -146,8 +152,8 @@ RUN mkdir -p /orig/apache2                     && \
 ### ========================== ###
 
 # TODO Remove before flight
-FROM manios/nagios:bu as sourcebuilder
-RUN echo OK 
+# FROM manios/nagios:bu as sourcebuilder
+# RUN echo OK 
 # END TODO Remove before flight
 
 FROM mybase
@@ -175,7 +181,7 @@ RUN  addgroup -S ${NAGIOS_GROUP} && \
        apk update && \
        apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                           php5 php5-gd php5-cli runit parallel ssmtp \
-                          libltdl libintl openssl-dev php7-apache2 procps
+                          libltdl libintl openssl-dev php7-apache2 procps iputils
 
 ADD overlay/ /
 
@@ -195,7 +201,11 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
             mkdir /run/apache2                        && \
             mkdir -p /var/spool/rsyslog               && \
             : '# Copy Apache configuration'           && \
-            cp -Rp /orig/apache2/* /etc/apache2
+            cp -Rp /orig/apache2/* /etc/apache2       && \
+            : '# Add dos2unix'                        && \
+            dos2unix /etc/rsyslog.conf                && \
+            dos2unix /usr/local/bin/start_nagios      && \
+            dos2unix /etc/sv/**/run
             
             
 EXPOSE 80
