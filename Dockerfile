@@ -36,8 +36,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     mv gosu-amd64 /bin/gosu && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu
+   
     
-
 ### ================================== ###
 ###   STAGE 2 COMPILE NAGIOS SOURCES   ###
 ### ================================== ###
@@ -197,7 +197,7 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
             : '# Copy initial settings files'         && \
             chown -R nagios:nagios ${NAGIOS_HOME}     && \
             : '# Create special dirs'                 && \
-            mkdir /run/apache2 || true                && \
+            (mkdir /run/apache2 || true)              && \
             mkdir -p /var/spool/rsyslog               && \
             : '# Copy Apache configuration'           && \
             cp -Rp /orig/apache2/* /etc/apache2       && \
