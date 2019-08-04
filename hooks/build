@@ -1,0 +1,9 @@
+#!/bin/bash
+
+MYVARSFILE=imagevars.sh
+if [ -f ${MYVARSFILE}]; then
+    echo "Loading custom image name from file ${MYVARSFILE}"
+    . ${MYVARSFILE}
+fi
+
+docker build --build-arg FROM_IMAGE_NAME="${ALPINE_IMAGE_NAME}" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
