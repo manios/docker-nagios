@@ -5,7 +5,7 @@ QEMU_EXE=qemu-arm-static
 QEMU_VERSION=v4.0.0-2
 
 # download qemu
-# curl -L https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/${QEMU_EXE}.tar.gz | tar zxvf - -C .
+curl -L https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/${QEMU_EXE}.tar.gz | tar zxvf - -C .
 
 # https://stackoverflow.com/questions/37935415/bash-regex-string-variable-match
 
@@ -33,5 +33,10 @@ else
 fi
 
 echo "Image name: ${FROM_IMAGE_NAME}. Exporting it to ENV"
+
+if [ "${ARCHITECTURE}" == "arm" ]; then
+    echo "Enabling qemu-arm-static in Dockerfile"
+    sed -i 's/^# *\(COPY qemu-arm-static\)/\1/g' "${DOCKERFILE_PATH}"
+fi
 
 echo "export ALPINE_IMAGE_NAME=${FROM_IMAGE_NAME}" > imagevars.sh

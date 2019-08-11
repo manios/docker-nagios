@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MYVARSFILE=imagevars.sh
-if [ -f ${MYVARSFILE}]; then
+if [ -f ${MYVARSFILE} ]; then
     echo "Loading custom image name from file ${MYVARSFILE}"
     . ${MYVARSFILE}
 fi

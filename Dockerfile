@@ -1,5 +1,5 @@
-FROM alpine:latest as mybase
-# FROM arm32v7/alpine:latest as mybase
+ARG FROM_IMAGE_NAME=alpine:latest
+FROM $FROM_IMAGE_NAME as mybase
 
 # COPY qemu-arm-static /usr/bin/
 
