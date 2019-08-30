@@ -19,7 +19,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_BRANCH=nagios-4.4.3 \
+    NAGIOS_BRANCH=nagios-4.4.5 \
     NAGIOS_PLUGINS_BRANCH=release-2.2.1 \
     NRPE_BRANCH=nrpe-3.2.1 \
     APACHE_LOCK_DIR=/var/run \
@@ -168,7 +168,7 @@ FROM mybase
 MAINTAINER Christos Manios <maniopaido@gmail.com>
 
 LABEL name="Nagios" \
-      version="4.4.3" \
+      version="4.4.5" \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
       build="1"

@@ -9,7 +9,7 @@ Build Status:
 
 ## Supported tags and respective `Dockerfile` links
 
-* `4.4.3`, `4.4`, `latest` [(4.4.3/Dockerfile)](https://github.com/manios/docker-nagios/blob/dokimes/Dockerfile)
+* `4.4.5`, `4.4`, `latest` [(4.4.5/Dockerfile)](https://github.com/manios/docker-nagios/blob/dokimes/Dockerfile)
 
 
 ## Running
