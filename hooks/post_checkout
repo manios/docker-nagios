@@ -37,6 +37,17 @@ echo "Image name: ${FROM_IMAGE_NAME}. Exporting it to ENV"
 if [ "${ARCHITECTURE}" == "arm" ]; then
     echo "Enabling qemu-arm-static in Dockerfile"
     sed -i 's/^# *\(COPY qemu-arm-static\)/\1/g' "${DOCKERFILE_PATH}"
+    
+    if [ "${ARC_VARIANT}" == "v6" ]; then
+        echo "Replacing the correct gosu binary link with gosu-armel (ARM v6)"
+        sed -i 's/gosu-amd64/gosu-armel/g' "${DOCKERFILE_PATH}"
+    else
+        echo "Replacing the correct gosu binary link with gosu-armhf (ARM v7)"
+        sed -i 's/gosu-amd64/gosu-armhf/g' "${DOCKERFILE_PATH}"
+    fi
 fi
 
 echo "export ALPINE_IMAGE_NAME=${FROM_IMAGE_NAME}" > imagevars.sh
+echo "export ALPINE_ARCHITECTURE=${ARCHITECTURE}" >> imagevars.sh
+echo "export ALPINE_ARC_VARIANT=${ARC_VARIANT}" >> imagevars.sh
+echo "export REPO_BRANCH=${MY_BRANCH}" >> imagevars.sh
