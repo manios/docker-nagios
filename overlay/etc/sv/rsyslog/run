@@ -1,3 +1,9 @@
 #!/bin/sh
 
+set -eu
+
+echo -n "Removing rsyslogd PID file before starting it ..."
+(rm -f /var/run/rsyslogd.pid || true)
+echo "OK"
+
 exec rsyslogd -n -f /etc/rsyslog.conf
