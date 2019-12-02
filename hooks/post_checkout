@@ -2,52 +2,14 @@
 
 # QEMU version variables
 QEMU_EXE=qemu-arm-static
-QEMU_VERSION=v4.0.0-2
+QEMU_VERSION=v4.2.0-4
 
 # download qemu
 curl -L https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/${QEMU_EXE}.tar.gz | tar zxvf - -C .
 
 # https://stackoverflow.com/questions/37935415/bash-regex-string-variable-match
 
-NEW_STRING="${DOCKER_TAG}"
-
-REGEX="^([^-]+)-?([^-]+)?$"
-VARIANT_REGEX="(arm)(v[67])"
-FROM_IMAGE_NAME="alpine:latest"
-
-echo $NEW_STRING;
-
-[[ $NEW_STRING =~ $REGEX ]]
-MY_BRANCH="${BASH_REMATCH[1]}"
-ARC_PART="${BASH_REMATCH[2]}"
-
-if [ -z $ARC_PART ]; then
-    echo "Architecture part is empty"
-else
-    [[ $ARC_PART =~ $VARIANT_REGEX ]]
-    ARCHITECTURE="${BASH_REMATCH[1]}"
-    ARC_VARIANT="${BASH_REMATCH[2]}"
-
-    echo "Branch: ${MY_BRANCH} . Architecture: ${ARCHITECTURE}, Variant: ${ARC_VARIANT}"
-    FROM_IMAGE_NAME="${ARCHITECTURE}32${ARC_VARIANT}/$FROM_IMAGE_NAME"
-fi
-
-echo "Image name: ${FROM_IMAGE_NAME}. Exporting it to ENV"
-
-if [ "${ARCHITECTURE}" == "arm" ]; then
-    echo "Enabling qemu-arm-static in Dockerfile"
-    sed -i 's/^# *\(COPY qemu-arm-static\)/\1/g' "${DOCKERFILE_PATH}"
-    
-    if [ "${ARC_VARIANT}" == "v6" ]; then
-        echo "Replacing the correct gosu binary link with gosu-armel (ARM v6)"
-        sed -i 's/gosu-amd64/gosu-armel/g' "${DOCKERFILE_PATH}"
-    else
-        echo "Replacing the correct gosu binary link with gosu-armhf (ARM v7)"
-        sed -i 's/gosu-amd64/gosu-armhf/g' "${DOCKERFILE_PATH}"
-    fi
-fi
-
-echo "export ALPINE_IMAGE_NAME=${FROM_IMAGE_NAME}" > imagevars.sh
-echo "export ALPINE_ARCHITECTURE=${ARCHITECTURE}" >> imagevars.sh
-echo "export ALPINE_ARC_VARIANT=${ARC_VARIANT}" >> imagevars.sh
-echo "export REPO_BRANCH=${MY_BRANCH}" >> imagevars.sh
+# download estep/manifest-tool
+curl -L https://github.com/estesp/manifest-tool/releases/download/v1.0.0/manifest-tool-linux-amd64 -o manifest-tool && \
+chmod 744 manifest-tool && \
+ls -l
