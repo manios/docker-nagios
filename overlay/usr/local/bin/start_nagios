@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 # adapted from https://github.com/discourse/discourse_docker/blob/master/image/base/boot
 # this script becomes PID 1 inside the container, catches termination signals, and stops
 # processes managed by runit
@@ -18,6 +20,16 @@ if [ ! -f "${NAGIOS_HOME}/etc/htpasswd.users" ] ; then
   htpasswd -c -b -s "${NAGIOS_HOME}/etc/htpasswd.users" "${NAGIOSADMIN_USER}" "${NAGIOSADMIN_PASS}"
   chown -R ${NAGIOS_USER}.${NAGIOS_GROUP} "${NAGIOS_HOME}/etc/htpasswd.users"
 fi
+
+# Remove pid files
+
+echo -n "Removing Apache HTTPD PID file before starting it ..."
+(rm -f /var/run/apache2/httpd.pid || true)
+echo "OK"
+
+echo -n "Removing rsyslogd PID file before starting it ..."
+(rm -f /var/run/rsyslogd.pid || true)
+echo "OK"
 
 shutdown() {
   echo Shutting Down
