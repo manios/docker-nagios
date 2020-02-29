@@ -2,10 +2,15 @@
 
 Docker image for [Nagios](https://www.nagios.org/), the Industry Standard In IT Infrastructure Monitoring. Nagios Core is running on [Alpine Linux](https://alpinelinux.org/), using [Apache HTTP](http://httpd.apache.org/) as a web server and [sSMTP](https://wiki.debian.org/sSMTP) as mail agent for email notifications.
 
-The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a differeent approach targetted to lightweight size and basic features. 
+The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a different approach targetted to lightweight size and basic features.
 
 Build Status: 
  [![build status badge](https://img.shields.io/travis/manios/docker-nagios?branch=master)](https://travis-ci.org/manios/docker-nagios/branches) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)
+
+## Quick reference
+
+* **Supported architectures**: `amd64`, `arm32v6`, `arm32v7`
+* **Where to file issues**: https://github.com/manios/docker-nagios/issues
 
 ## Supported tags and respective `Dockerfile` links
 
@@ -42,17 +47,25 @@ For best results your Nagios container should have access to both IPv4 & IPv6 ne
 
 ### Credentials
 
-The default credentials for the web interface is `nagiosadmin` / `nagios`
+The default credentials for the web interface is `nagiosadmin` / `nagios`. However you can define your own credentials by overriding `NAGIOSADMIN_USER` and `NAGIOSADMIN_PASS` when you run the container. For example:
+
+```sh
+docker run --name nagios  \
+  -e NAGIOSADMIN_USER="godmode" \
+  -e NAGIOSADMIN_PASS="super-Duper-Secret!" \
+  -p 0.0.0.0:8080:80 \
+  manios/nagios:latest
+```
 
 ## Flavours
 
 This Docker image is designed with optimising resources usage in mind and is build for 3 architectures.
 
-|Tag|Architecture|Variant|Notes|
-|-|-|-|-|
-|latest|x64|-|Normal image for x64 PCs|
-|latest-armv6|arm|v6|Image for ARM v6 processors. Compatible with Raspberry Pi 1 boards|
-|latest-armv7|arm|v7|Image for ARM v7 processors. Compatible with Raspberry Pi [Model 2 B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/), [3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/) boards|
+|Architecture|Variant|Notes|
+|-|-|-|
+|amd64|-|Normal image for x64 PCs|
+|arm|v6|Image for ARM v6 processors. Compatible with Raspberry Pi 1 boards|
+|arm|v7|Image for ARM v7 processors. Compatible with Raspberry Pi [Model 2 B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/), [3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/) boards|
 
 ## Test configuration
 
