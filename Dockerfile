@@ -29,7 +29,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                         php7 php7-gd php7-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php7-apache2 procps && \
+                        libltdl libintl openssl-dev php7-apache2 procps tzdata && \
                                                 \
     : '# For x64 the binary is : gosu-amd64' && \
     : '# For arm-v6 the binary is : gosu-armel' && \

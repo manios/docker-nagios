@@ -8,7 +8,7 @@ addons:
       - docker-ce
 
 env:
-  - VERSION=4.4.5 DOCKERFILE_PATH="./Dockerfile" IMAGE_NAME="manios/nagios:$VERSION"
+  - VERSION=4.4.5-tz DOCKERFILE_PATH="./Dockerfile" IMAGE_NAME="manios/nagios:$VERSION"
 
 before_script:
   - ./hooks/post_checkout
