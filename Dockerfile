@@ -1,12 +1,13 @@
-ARG FROM_IMAGE_NAME=alpine:latest
-ARG FROM_SRC_IMAGE_NAME=manios/nagios-src-builder:latest
+### ================================== ###
+###   STAGE 1 CREATE PARENT IMAGE      ###
+### ================================== ###
 
-FROM $FROM_IMAGE_NAME as mybase
+# https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-# COPY qemu-arm-static /usr/bin/
+FROM alpine as builder-base
 
-ARG GOSU_BIN=gosu-amd64
-ARG FROM_SRC_IMAGE_NAME
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
 ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_USER=nagios \
@@ -17,12 +18,12 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_BRANCH=nagios-4.4.5 \
-    NAGIOS_PLUGINS_BRANCH=release-2.2.1 \
-    NRPE_BRANCH=nrpe-3.2.1 \
+    NAGIOS_VERSION=4.4.5 \
+    NAGIOS_PLUGINS_VERSION=2.2.1 \
+    NRPE_VERSION=4.0.0 \
     APACHE_LOCK_DIR=/var/run \
-    APACHE_LOG_DIR=/var/log/apache2 \
-    GOSU_VERSION=1.11
+    APACHE_LOG_DIR=/var/log/apache2
+
 
 RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} && \
@@ -34,9 +35,14 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     : '# For x64 the binary is : gosu-amd64' && \
     : '# For arm-v6 the binary is : gosu-armel' && \
     : '# For arm-v7 the binary is : gosu-armhf' && \
-    echo "Try to download https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/${GOSU_BIN}" && \
-    wget https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/${GOSU_BIN} && \
-    mv ${GOSU_BIN} /bin/gosu && \
+    : '#######################################' && \
+    : '# Creating an associative array with the platforms and their respective gosu release DOES NOT WORK in /bin/sh' && \
+    echo "Arguments TARGETPLATFORM: ${TARGETPLATFORM} and BUILDPLATFORM: ${BUILDPLATFORM}" && \
+    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; print gosuBinArr[$0];}' > mygosuver.txt && \
+    gosuPlatform=$(cat mygosuver.txt) && \
+    echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
+    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.12/${gosuPlatform}"  && \
+    mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
@@ -46,16 +52,143 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
 ###   STAGE 2 COMPILE NAGIOS SOURCES   ###
 ### ================================== ###
 
-FROM $FROM_SRC_IMAGE_NAME as sourcebuilder
+FROM builder-base as builder-compile
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
-# Print something to denote that the sourcebuilder image has been downloaded
-RUN echo "Downloaded manios/nagios-src-builder image"
+MAINTAINER Christos Manios <maniopaido@gmail.com>
+
+LABEL name="Nagios" \
+      nagiosVersion="4.4.5" \
+      nagiosPluginsVersion="2.2.1" \
+      nrpeVersion="3.2.1" \
+      homepage="https://www.nagios.com/" \
+      maintainer="Christos Manios <maniopaido@gmail.com>" \
+      build="1"
+
+# Add dependencies required to build Nagios
+RUN apk update && \
+    apk add --no-cache build-base automake libtool autoconf py-docutils gnutls  \
+                        gnutls-dev g++ make alpine-sdk build-base gcc autoconf \
+                        gettext-dev linux-headers openssl-dev
+
+# Download Nagios core, plugins and nrpe sources                        
+RUN    cd /tmp && \
+       echo -n "Downloading Nagios ${NAGIOS_VERSION} source code: " && \
+       wget -O nagios-core.tar.gz "https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${NAGIOS_VERSION}.tar.gz" && \
+       echo -n -e "OK\nDownloading Nagios plugins ${NAGIOS_PLUGINS_VERSION} source code: " && \
+       wget -O nagios-plugins.tar.gz "https://github.com/nagios-plugins/nagios-plugins/archive/release-${NAGIOS_PLUGINS_VERSION}.tar.gz" && \
+       echo -n -e "OK\nDownloading NRPE ${NRPE_VERSION} source code: " && \
+       wget -O nrpe.tar.gz "https://github.com/NagiosEnterprises/nrpe/archive/nrpe-${NRPE_VERSION}.tar.gz" && \
+       env && \
+       echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM !! == " && \
+       echo "OK"
+
+# Compile Nagios Core
+RUN    ls -l /tmp && cd /tmp && \
+       tar zxf nagios-core.tar.gz && \
+       tar zxf nagios-plugins.tar.gz && \
+       tar zxf nrpe.tar.gz && \
+       cd  "/tmp/nagioscore-nagios-${NAGIOS_VERSION}" && \
+       echo -e "\n ===========================\n  Configure Nagios Core\n ===========================\n" && \
+       ./configure \
+            --prefix=${NAGIOS_HOME}                  \
+            --exec-prefix=${NAGIOS_HOME}             \
+            --enable-event-broker                    \
+            --with-command-user=${NAGIOS_CMDUSER}    \
+            --with-command-group=${NAGIOS_CMDGROUP}  \
+            --with-nagios-user=${NAGIOS_USER}        \
+            --with-nagios-group=${NAGIOS_GROUP}      && \
+       echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
+       sed -i 's/<sys\/poll.h>/<poll.h>/g' ./include/config.h && \
+       echo -e "\n\n ===========================\n Compile Nagios Core\n ===========================\n" && \
+       make all && \
+       echo -e "\n\n ===========================\n  Install Nagios Core\n ===========================\n" && \
+       make install && \
+       make install-commandmode && \
+       make install-config && \
+       make install-webconf && \
+       echo -n "Nagios installed size: " && \
+       du -h -s ${NAGIOS_HOME}
+
+# Compile Nagios Plugins
+RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n ===========================\n" && \
+       cd  /tmp/nagios-plugins-release-${NAGIOS_PLUGINS_VERSION} && \
+       ./autogen.sh && \
+       ./configure  --with-nagios-user=${NAGIOS_USER} \
+                    --with-nagios-group=${NAGIOS_USER} \
+                    --with-openssl \
+                    --prefix=${NAGIOS_HOME}                                 \
+                    --with-ping-command="/bin/gosu root /bin/ping -n -w %d -c %d %s"  \
+                    --with-ipv6                                             \
+                    --with-ping6-command="/bin/gosu root /bin/ping6 -n -w %d -c %d %s"  && \
+       echo "Nagios plugins configured: OK" && \
+       echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
+       egrep -rl "\<sys\/poll.h\>" . | xargs sed -i 's/<sys\/poll.h>/<poll.h>/g' && \
+       egrep -rl "\"sys\/poll.h\"" . | xargs sed -i 's/"sys\/poll.h"/"poll.h"/g' && \
+       echo "OK" && \
+       echo -e "\n\n ===========================\n Compile Nagios Plugins\n ===========================\n" && \
+       make && \
+       echo "Nagios plugins compile successfully: OK" && \
+       echo -e "\n\n ===========================\nInstall Nagios Plugins\n ===========================\n" && \
+       make install && \
+       echo "Nagios plugins installed successfully: OK"
+
+# Compile NRPE
+RUN    echo -e "\n\n =====================\n  Configure NRPE\n =====================\n" && \
+       cd  /tmp/nrpe-nrpe-${NRPE_VERSION} && \
+       ./configure --enable-command-args \
+                    --with-nagios-user=${NAGIOS_USER} \
+                    --with-nagios-group=${NAGIOS_USER} \
+                    --with-ssl=/usr/bin/openssl \
+                    --with-ssl-lib=/usr/lib && \
+       echo "NRPE client configured: OK" && \
+       echo -e "\n\n ===========================\n  Compile NRPE\n ===========================\n" && \
+       # make all && \
+       make check_nrpe                                                          && \
+       echo "NRPE compiled successfully: OK" && \
+       echo -e "\n\n ===========================\n  Install NRPE\n ===========================\n" && \
+       # make install && \
+       cp src/check_nrpe ${NAGIOS_HOME}/libexec/                                && \
+       echo "NRPE installed successfully: OK" && \
+       echo -n "Final Nagios installed size: " && \
+       du -h -s ${NAGIOS_HOME} 
+
+# Compile Nagios files
+# Create SSMTP configuration
+
+
+# RUN sed -i.bak 's/.*\=www\-data//g' /etc/apache2/envvars
+RUN export DOC_ROOT="DocumentRoot $(echo $NAGIOS_HOME/share)"                                        && \
+    sed -i "s,DocumentRoot.*,$DOC_ROOT," /etc/apache2/httpd.conf                                     && \
+    sed -i "s|^ *ScriptAlias.*$|ScriptAlias /cgi-bin $NAGIOS_HOME/sbin|g" /etc/apache2/httpd.conf    && \
+    sed -i 's/^\(.*\)#\(LoadModule cgi_module\)\(.*\)/\1\2\3/' /etc/apache2/httpd.conf               && \
+    echo "ServerName ${NAGIOS_FQDN}" >> /etc/apache2/httpd.conf
+
+RUN sed -i 's,/bin/mail,/usr/bin/mail,' ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
+    sed -i 's,/usr/usr,/usr,'           ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
+                                                                                    \  
+    : '# Modify Nagios mail commands in order to work with SSMTP'         && \
+    sed -i 's/^.*command_line.*Host Alert.*$//g' /opt/nagios/etc/objects/commands.cfg && \
+    sed -i 's/^.*command_line.*Service Alert.*$//g' /opt/nagios/etc/objects/commands.cfg && \
+    sed -i '/notify-host-by-email/a command_line /usr/bin/printf "%b" "Subject: $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$\\n\\n***** Nagios *****\\n\\nNotification Type: $NOTIFICATIONTYPE$\\nHost: $HOSTNAME$\\nState: $HOSTSTATE$\\nAddress: $HOSTADDRESS$\\nInfo: $HOSTOUTPUT$\\n\\nDate/Time: $LONGDATETIME$\\n" | /usr/sbin/sendmail -v $CONTACTEMAIL$' ${NAGIOS_HOME}/etc/objects/commands.cfg  && \
+    sed -i '/notify-service-by-email/a command_line /usr/bin/printf "%b" "Subject: $NOTIFICATIONTYPE$ Service Alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$\\n\\n***** Nagios *****\\n\\nNotification Type: $NOTIFICATIONTYPE$\\n\\nService: $SERVICEDESC$\\nHost: $HOSTALIAS$\\nAddress: $HOSTADDRESS$\\nState: $SERVICESTATE$\\n\\nDate/Time: $LONGDATETIME$\\n\\nAdditional Info:\\n\\n$SERVICEOUTPUT$\\n" | /usr/sbin/sendmail -v $CONTACTEMAIL$' ${NAGIOS_HOME}/etc/objects/commands.cfg
+
+RUN echo "use_timezone=${NAGIOS_TIMEZONE}" >> ${NAGIOS_HOME}/etc/nagios.cfg && \
+    sed -i 's/date_format=us/date_format=iso8601/g' ${NAGIOS_HOME}/etc/nagios.cfg
+
+# Copy original configuration to /orig directory
+RUN mkdir -p /orig/apache2                     && \
+    cp -r /etc/apache2/*  /orig/apache2        && \
+    cp -r ${NAGIOS_HOME}/etc  /orig/etc        && \
+    cp -r ${NAGIOS_HOME}/var  /orig/var         
+
 
 ### ========================== ###
 ### START OF ACTUAL DOCKERFILE ###
 ### ========================== ###
 
-FROM mybase
+FROM builder-base
 
 MAINTAINER Christos Manios <maniopaido@gmail.com>
 
@@ -70,9 +203,9 @@ RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
     
 WORKDIR ${NAGIOS_HOME}
-COPY --from=sourcebuilder ${NAGIOS_HOME} ${NAGIOS_HOME}
+COPY --from=builder-compile ${NAGIOS_HOME} ${NAGIOS_HOME}
 
-COPY --from=sourcebuilder /orig /orig
+COPY --from=builder-compile /orig /orig
 
 ADD overlay/ /
 
