@@ -5,17 +5,18 @@ Docker image for [Nagios](https://www.nagios.org/), the Industry Standard In IT 
 The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a different approach targetted to lightweight size and basic features.
 
 Build Status: 
- [![build status badge](https://img.shields.io/travis/manios/docker-nagios?branch=master)](https://travis-ci.org/manios/docker-nagios/branches) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)
+ ![build status badge](https://github.com/manios/docker-nagios/workflows/Nagios%20Build/badge.svg?branch=master) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)
 
 ## Quick reference
 
-* **Supported architectures**: `amd64`, `arm32v6`, `arm32v7`
+* **Supported architectures**: `x86`, `amd64`, `arm/v6`, `arm/v7`
 * **Where to file issues**: https://github.com/manios/docker-nagios/issues
 
 ## Supported tags and respective `Dockerfile` links
 
-* `4.4.5`, `4.4`, `latest` [(4.4.5/Dockerfile)](https://github.com/manios/docker-nagios/blob/dokimes/Dockerfile)
+* `4.4.6`, `4.4`, `latest` [(4.4.6/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
 
+For more information about the image versions you may refer to the [CHANGELOG](https://github.com/manios/docker-nagios/blob/master/CHANGELOG.md)
 
 ## Running
 
@@ -57,15 +58,28 @@ docker run --name nagios  \
   manios/nagios:latest
 ```
 
+### Timezones
+
+By default the Alpine container and Nagios both use `UTC`. In order to change the timezone we can pass the [tz timezone database name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) as an environmental variable in `docker run` such as:
+
+```bash
+docker run -e "TZ=Europe/Athens" manios/nagios:latest
+```
+
+This will configure and use globally `"Europe/Athens"` in both container and Nagios process.
+
 ## Flavours
 
-This Docker image is designed with optimising resources usage in mind and is build for 3 architectures.
+This Docker image is designed with optimising resources usage in mind and is build for multiple hardware architectures. The following matrix can be used to determine if your hardware architecture is supported:
 
-|Architecture|Variant|Notes|
-|-|-|-|
-|amd64|-|Normal image for x64 PCs|
-|arm|v6|Image for ARM v6 processors. Compatible with Raspberry Pi 1 boards|
-|arm|v7|Image for ARM v7 processors. Compatible with Raspberry Pi [Model 2 B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/), [3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/) boards|
+|Hardware|Image OS/Arch|
+|-|-|
+|PC (32bit)|linux/386|
+|PC (64bit)|linux/amd64
+|Raspberry Pi 1|linux/arm/v6|
+|Raspberry Pi 2|linux/arm/v7|
+|Raspberry Pi 3|linux/arm/v7|
+|Raspberry Pi 4|linux/arm/v7|
 
 ## Test configuration
 
@@ -74,3 +88,19 @@ To check if your Nagios configuration is OK, you can run the following while you
 ```bash
 docker exec -it mynagioscontainer bin/nagios -v etc/nagios.cfg
 ```
+
+## Troubleshooting
+
+### My image does not run on Raspberry Pi
+
+As already mentioned in [#17](https://github.com/manios/docker-nagios/issues/17), sometimes, because docker manifest related features are still experimental (after 2+ years of their introduction) it has happened when we tested in Raspberry Pi 1 (`arm-v6`) and Raspberry Pi 3 (`arm-v7`) that it does not download the `arm` image but the `amd64`.
+
+Thus you can define explicitly which architecture to pull:
+
+```bash
+docker pull --platform=linux/arm/v6 manios/nagios
+# or
+docker pull --platform=linux/arm/v7 manios/nagios
+```
+
+and it works. Be advised that the `--platform` switch requires that you enable the [Docker Experimental Features](https://github.com/docker/cli/blob/master/experimental/README.md).
