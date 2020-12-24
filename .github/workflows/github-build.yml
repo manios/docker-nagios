@@ -46,7 +46,7 @@ jobs:
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7 \
-            --tag manios/nagios:4.4.6 \
+            --tag manios/nagios:latest \
             --output "type=image,push=true" .
       -
         name: Docker Buildx (push)
@@ -55,9 +55,9 @@ jobs:
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7 \
-            --tag manios/nagios:4.4.6 \
+            --tag manios/nagios:latest \
             --output "type=image,push=true" .
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect manios/nagios:4.4.6
+          docker buildx imagetools inspect manios/nagios:latest
