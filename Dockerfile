@@ -60,7 +60,7 @@ ARG BUILDPLATFORM
 RUN apk update && \
     apk add --no-cache build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc autoconf \
-                        gettext-dev linux-headers openssl-dev
+                        gettext-dev linux-headers openssl-dev net-snmp net-snmp-tools
 
 # Download Nagios core, plugins and nrpe sources                        
 RUN    cd /tmp && \
@@ -188,7 +188,7 @@ LABEL name="Nagios" \
       nrpeVersion="4.0.3" \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="2"
+      build="3-SNAPSHOT"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
