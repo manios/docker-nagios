@@ -3,6 +3,16 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 3 (2021-03-07)
+
+* Nagios core: v4.4.6
+* Nagios plugins: v2.3.3
+* NRPE: 4.0.3
+
+### Bug Fixes
+
+* Fix snmp plugin build ([#22](https://github.com/manios/docker-nagios/issues/22))
+
 ## Build 2 (2020-12-24)
 
 * Nagios core: v4.4.6
