@@ -30,7 +30,10 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                         php7 php7-gd php7-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php7-apache2 procps tzdata && \
+                        libltdl libintl openssl-dev php7-apache2 procps tzdata \
+                        libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
+                        lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
+                        perl-timedate perl-libwww perl-text-glob && \
                                                 \
     : '# For x64 the binary is : gosu-amd64' && \
     : '# For arm-v6 the binary is : gosu-armel' && \
@@ -197,8 +200,15 @@ LABEL name="Nagios" \
       build="3"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
-    mkdir -p /orig/apache2
-    
+    mkdir -p /orig/apache2 && \
+    apk update && \
+    apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
+                        php7 php7-gd php7-cli runit parallel ssmtp \
+                        libltdl libintl openssl-dev php7-apache2 procps tzdata \
+                        libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
+                        lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
+                        perl-timedate perl-libwww perl-text-glob
+
 WORKDIR ${NAGIOS_HOME}
 COPY --from=builder-compile ${NAGIOS_HOME} ${NAGIOS_HOME}
 
