@@ -88,157 +88,157 @@ cmd_check_wave="$NAGIOS_PLUGINS/check_wave"
 
 @test "Test run check_breeze with no arguments" {
   result=$(${cmd_check_breeze})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Host name/address not specified"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_by_ssh with no arguments" {
   result=$(${cmd_check_by_ssh})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_by_ssh: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_clamd with no arguments" {
   result=$(${cmd_check_clamd})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_clamd: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_cluster with no arguments" {
   result=$(${cmd_check_cluster})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_dbi with no arguments" {
   result=$(${cmd_check_dbi})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Must specify a DBI driver"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_dhcp with no arguments" {
   result=$(${cmd_check_dhcp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "CRITICAL: No DHCPOFFERs were received."
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_dig with no arguments" {
   result=$(${cmd_check_dig})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_dig: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_disk with no arguments" {
   result=$(${cmd_check_disk})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_disk: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_disk_smb with no arguments" {
   result=$(${cmd_check_disk_smb})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep TODO
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_dns with no arguments" {
   result=$(${cmd_check_dns})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_dns: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_dummy with no arguments" {
   result=$(${cmd_check_dummy})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_dummy: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_file_age with no arguments" {
   result=$(${cmd_check_file_age})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "FILE_AGE UNKNOWN: No file specified"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_flexlm with no arguments" {
   result=$(${cmd_check_flexlm})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Missing license.dat file"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_fping with no arguments" {
   result=$(${cmd_check_fping})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_fping: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ftp with no arguments" {
   result=$(${cmd_check_ftp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ftp: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_hpjd with no arguments" {
   result=$(${cmd_check_hpjd})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_hpjd: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_http with no arguments" {
   result=$(${cmd_check_http})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_http: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_icmp with no arguments" {
   result=$(${cmd_check_icmp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_icmp: No hosts to check"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ide_smart with no arguments" {
   result=$(${cmd_check_ide_smart})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ide_smart \[-d <device>\]"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ifoperstatus with no arguments" {
   result=$(${cmd_check_ifoperstatus})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Hostname invalid or not given"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ifstatus with no arguments" {
   result=$(${cmd_check_ifstatus})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Hostname invalid or not given"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_imap with no arguments" {
   result=$(${cmd_check_imap})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_imap: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ircd with no arguments" {
   result=$(${cmd_check_ircd})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Host name/address not specified"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_jabber with no arguments" {
   result=$(${cmd_check_jabber})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_jabber: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ldap with no arguments" {
   result=$(${cmd_check_ldap})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ldap: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ldaps with no arguments" {
   result=$(${cmd_check_ldaps})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ldaps: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
