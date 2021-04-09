@@ -1,0 +1,466 @@
++ https://github.com/sstephenson/bats
+./bob.sh: line 8: https://github.com/sstephenson/bats: not found
++ ./check_apt
+' -o 'Debug::NoLocking=true' -s -qq upgrade' exited with non-zero status.
+APT UNKNOWN: 0 packages available for upgrade (0 critical updates).  errors detected.|available_upgrades=0;;;0 critical_updates=0;;;0
++ ./check_breeze
+Host name/address not specified
++ ./check_by_ssh
+check_by_ssh: Could not parse arguments
++ ./check_clamd
+check_clamd: No arguments found
+Usage:
+check_clamd -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_cluster
+Could not parse arguments
+Usage:
+ check_cluster (-s | -h) -d val1[,val2,...,valn] [-l label]
+[-w threshold] [-c threshold] [-v] [--help]
++ ./check_dbi
+Must specify a DBI driver
+Usage:
+check_dbi -d <DBI driver> [-o <DBI driver option> [...]] [-q <query>]
+ [-H <host>] [-c <critical range>] [-w <warning range>] [-m <metric>]
+ [-e <string>] [-r|-R <regex>]
++ ./check_dhcp
+CRITICAL: No DHCPOFFERs were received.
++ ./check_dig
+check_dig: Could not parse arguments
++ ./check_disk
+check_disk: Could not parse arguments
+Usage:
+ check_disk -w limit -c limit [-W limit] [-K limit] {-p path | -x device}
+[-C] [-E] [-e] [-f] [-g group ] [-H] [-k] [-l] [-M] [-m] [-R path ] [-r path ]
+[-t timeout] [-u unit] [-v] [-X type] [-N type] [-n] [--combined-thresholds ]
++ ./check_disk_smb
+check requires smbclient, /usr/bin/smbclient: No such file or directory
++ ./check_dns
+check_dns: Could not parse arguments
++ ./check_dummy
+check_dummy: Could not parse arguments
+Usage:
+ check_dummy <integer state> [optional text]
++ ./check_file_age
+FILE_AGE UNKNOWN: No file specified
++ ./check_flexlm
+Missing license.dat file
+Usage:
+   check_flexlm -F <filename> [-v] [-t] [-V] [-h]
+   check_flexlm --help
+   check_flexlm --version
++ ./check_fping
+check_fping: Could not parse arguments
+Usage:
+ check_fping <host_address> -w limit -c limit [-b size] [-n number] [-T number] [-i number]
++ ./check_ftp
+check_ftp: No arguments found
+Usage:
+check_ftp -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_hpjd
+check_hpjd: Could not parse arguments
+Usage:
+check_hpjd -H host [-C community] [-p port][-N]
++ ./check_http
+check_http: Could not parse arguments
+Usage:
+ check_http -H <vhost> | -I <IP-address> [-u <uri>] [-p <port>]
+       [-J <client certificate file>] [-K <private key>]
+       [-w <warn time>] [-c <critical time>] [-t <timeout>] [-L] [-E] [-U] [-a auth]
+       [-b proxy_auth] [-f <ok|warning|critical|follow|sticky|stickyport>]
+       [-e <expect>] [-d string] [-s string] [-l] [-r <regex> | -R <case-insensitive regex>]
+       [-P string] [-m <min_pg_size>:<max_pg_size>] [-4|-6] [-N] [-M <age>]
+       [-A string] [-k string] [-S <version>] [--sni] [--verify-host]
+       [-C <warn_age>[,<crit_age>]] [-T <content-type>] [-j method]
++ ./check_icmp
+check_icmp: No hosts to check
++ ./check_ide_smart
+check_ide_smart v2.3.3.git (nagios-plugins 2.3.3)
+Nagios feature - 1999 Robert Dale <rdale@digital-mission.com>
+(C) 1999 Ragnar Hojland Espinosa <ragnar@lightside.dhis.org>
+Copyright (c) 1998-2014 Nagios Plugin Development Team
+	<devel@nagios-plugins.org>
+
+This plugin checks a local hard drive with the (Linux specific) SMART interface [http://smartlinux.sourceforge.net/smart/index.php].
+
+Usage:
+check_ide_smart [-d <device>] [-i <immediate>] [-q quiet] [-1 <auto-on>] [-O <auto-off>] [-n <nagios>]
+
+Options:
+ -h, --help
+    Print detailed help screen
+ -V, --version
+    Print version information
+ --extra-opts=[section][@file]
+    Read options from an ini file. See
+    https://www.nagios-plugins.org/doc/extra-opts.html
+    for usage and examples.
+ -d, --device=DEVICE
+    Select device DEVICE
+    Note: if the device is selected with this option, _no_ other options are accepted
+ -i, --immediate
+    Perform immediately offline tests
+ -q, --quiet-check
+    Returns the number of failed tests
+ -1, --auto-on
+    Turn on automatic offline tests
+ -0, --auto-off
+    Turn off automatic offline tests
+ -n, --nagios
+    Output suitable for Nagios
+
+Send email to help@nagios-plugins.org if you have questions regarding use
+of this software. To submit patches or suggest improvements, send email to
+devel@nagios-plugins.org
+
++ ./check_ifoperstatus
+Hostname invalid or not given
+
+usage: 
+check_ifoperstatus -k <IF_KEY> -H <HOSTNAME> [-C <community>]
+Copyright (C) 2000 Christoph Kron
+check_ifoperstatus.pl comes with ABSOLUTELY NO WARRANTY
+This program is licensed under the terms of the GNU General Public License
+(check source code for details)
+
+
++ ./check_ifstatus
+Hostname invalid or not given
+
+usage: 
+check_ifstatus -C <READCOMMUNITY> -p <PORT> -H <HOSTNAME>
+Copyright (C) 2000 Christoph Kron
+Updates 5/2002 Subhendu Ghosh
+Send email to help@nagios-plugins.org if you have questions regarding use
+of this software. To submit patches or suggest improvements, send email to
+devel@nagios-plugins.org. Please include version information with all
+correspondence (when possible, use output from the --version option of the
+plugin itself).
+
+
++ ./check_imap
+check_imap: No arguments found
+Usage:
+check_imap -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_ircd
+Host name/address not specified
++ ./check_jabber
+check_jabber: No arguments found
+Usage:
+check_jabber -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_ldap
+check_ldap: Could not parse arguments
+Usage:
+ check_ldap (-H <host>|-U <uri>) -b <base_dn> [-p <port>] [-a <attr>] [-D <binddn>]
+       [-P <password>] [-w <warn_time>] [-c <crit_time>] [-t timeout] [-A <age>]
+       [-2|-3] [-4|-6]
++ ./check_ldaps
+check_ldaps: Could not parse arguments
+Usage:
+ check_ldaps (-H <host>|-U <uri>) -b <base_dn> [-p <port>] [-a <attr>] [-D <binddn>]
+       [-P <password>] [-w <warn_time>] [-c <crit_time>] [-t timeout] [-A <age>]
+       [-2|-3] [-4|-6]
++ ./check_load
+check_load: Could not parse arguments
+Usage:
+check_load [-r] -w WLOAD1,WLOAD5,WLOAD15 -c CLOAD1,CLOAD5,CLOAD15 [-n NUMBER_OF_PROCS]
++ ./check_log
+Usage: check_log -F logfile -O oldlog -q query
+Usage: check_log --help
+Usage: check_log --version
+     Additional parameter:
+        -w (--max_warning) If used, determines the maximum matching value to return as warning, when finding more matching lines than this parameter will return as critical. If not used, will consider as default 0 (any matching will consider as critical)
+Usage: check_log -F logfile -O oldlog -q query -w <number>
++ ./check_mailq
+Usage: check_mailq -w <warn> -c <crit> [-W <warn>] [-C <crit>] [-M <MTA>] [-t <timeout>] [-s] [-d <CONFIGDIR>] [-v]
++ ./check_mrtg
+check_mrtg: Could not parse arguments
+
+Usage:
+check_mrtg -F log_file -a <AVG | MAX> -v variable -w warning -c critical
+[-l label] [-u units] [-e expire_minutes] [-t timeout] [-v]
++ ./check_mrtgtraf
+check_mrtgtraf: Could not parse arguments
+Usage check_mrtgtraf -F <log_file> -a <AVG | MAX> -w <warning_pair>
+-c <critical_pair> [-e expire_minutes]
++ ./check_mysql
+Can't connect to local MySQL server through socket '/run/mysqld/mysqld.sock' (2)
++ ./check_mysql_query
+Must specify a SQL query to run
+Usage:
+ check_mysql_query -q SQL_query [-w warn] [-c crit] [-H host] [-P port] [-s socket]
+       [-d database] [-u user] [-p password] [-f optfile] [-g group] [-a character-set]
++ ./check_nagios
+check_nagios: Could not parse arguments
++ ./check_nntp
+check_nntp: No arguments found
+Usage:
+check_nntp -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_nntps
+check_nntps: No arguments found
+Usage:
+check_nntps -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_nrpe
+
+Incorrect command line arguments supplied
+
+NRPE Plugin for Nagios
+Version: 4.0.3
+
+Copyright (c) 2009-2017 Nagios Enterprises
+              1999-2008 Ethan Galstad (nagios@nagios.org)
+
+Last Modified: 2020-04-28
+
+License: GPL v2 with exemptions (-l for more info)
+
+SSL/TLS Available: OpenSSL 0.9.6 or higher required
+
+Usage: check_nrpe -H <host> [-2] [-3] [-4] [-6] [-n] [-u] [-V] [-l] [-d <dhopt>]
+       [-P <size>] [-S <ssl version>]  [-L <cipherlist>] [-C <clientcert>]
+       [-K <key>] [-A <ca-certificate>] [-s <logopts>] [-b <bindaddr>]
+       [-f <cfg-file>] [-p <port>] [-t <interval>:<state>] [-g <log-file>]
+       [-c <command>] [-E] [-D] [-a <arglist...>]
+
+Options:
+ -H, --host=HOST              The address of the host running the NRPE daemon
+ -2, --v2-packets-only        Only use version 2 packets, not version 3/4
+ -3, --v3-packets-only        Only use version 3 packets, not version 4
+ -4, --ipv4                   Bind to ipv4 only
+ -6, --ipv6                   Bind to ipv6 only
+ -n, --no-ssl                 Do no use SSL
+ -u, --unknown-timeout        Make connection problems return UNKNOWN instead of CRITICAL
+ -V, --version                Print version info and quit
+ -l, --license                Show license
+ -E, --stderr-to-stdout       Redirect stderr to stdout
+ -d, --use-dh=DHOPT           Anonymous Diffie Hellman use:
+                              0         Don't use Anonymous Diffie Hellman
+                                        (This will be the default in a future release.)
+                              1         Allow Anonymous Diffie Hellman (default)
+                              2         Force Anonymous Diffie Hellman
+ -D, --disable-syslog         Disable logging to syslog facilities
+ -P, --payload-size=SIZE      Specify non-default payload size for NSClient++
+ -S, --ssl-version=VERSION    The SSL/TLS version to use. Can be any one of:
+                              SSLv3     SSL v3 only
+                              SSLv3+    SSL v3 or above 
+                              TLSv1     TLS v1 only
+                              TLSv1+    TLS v1 or above (DEFAULT)
+                              TLSv1.1   TLS v1.1 only
+                              TLSv1.1+  TLS v1.1 or above
+                              TLSv1.2   TLS v1.2 only
+                              TLSv1.2+  TLS v1.2 or above
+ -L, --cipher-list=LIST       The list of SSL ciphers to use (currently defaults
+                              to "ALL:!MD5:@STRENGTH:@SECLEVEL=0". THIS WILL change in a future release.)
+ -C, --client-cert=FILE       The client certificate to use for PKI
+ -K, --key-file=FILE          The private key to use with the client certificate
+ -A, --ca-cert-file=FILE      The CA certificate to use for PKI
+ -s, --ssl-logging=OPTIONS    SSL Logging Options
+ -b, --bind=IPADDR            Local address to bind to
+ -f, --config-file=FILE       Configuration file to use
+ -g, --log-file=FILE          Log file to write to
+ -p, --port=PORT              The port on which the daemon is running (default=5666)
+ -c, --command=COMMAND        The name of the command that the remote daemon should run
+ -a, --args=LIST              Optional arguments that should be passed to the command,
+                              separated by a space. If provided, this must be the last
+                              option supplied on the command line.
+ -e 	                      Enable syslog debug messages.
+
+ NEW TIMEOUT SYNTAX
+ -t, --timeout=INTERVAL:STATE
+                              INTERVAL  Number of seconds before connection times out (default=10)
+                              STATE     Check state to exit with in the event of a timeout (default=CRITICAL)
+                              Timeout STATE must be a valid state name (case-insensitive) or integer:
+                              (OK, WARNING, CRITICAL, UNKNOWN) or integer (0-3)
+
+Note:
+This plugin requires that you have the NRPE daemon running on the remote host.
+You must also have configured the daemon to associate a specific plugin command
+with the [command] option you are specifying here. Upon receipt of the
+[command] argument, the NRPE daemon will run the appropriate plugin command and
+send the plugin output and return code back to *this* plugin. This allows you
+to execute plugins on remote hosts and 'fake' the results to make Nagios think
+the plugin is being run locally.
+
++ ./check_nt
+check_nt: Could not parse arguments
+Usage:
+check_nt -H host -v variable [-p port] [-w warning] [-c critical]
+[-l params] [-d SHOWALL] [-u](DEPRECATED) [-t timeout]
++ ./check_ntp
+
+
+WARNING: check_ntp is deprecated. Please use check_ntp_peer or
+check_ntp_time instead.
+
+Usage:
+ check_ntp -H <host> [-w <warn>] [-c <crit>] [-j <warn>] [-k <crit>] [-4|-6] [-v verbose] [-d <delay>]
++ ./check_ntp_peer
+
+
+Usage:
+ check_ntp_peer -H <host> [-4|-6] [-w <warn>] [-c <crit>] [-W <warn>] [-C <crit>]
+       [-j <warn>] [-k <crit>] [-v verbose]
++ ./check_ntp_time
+
+
+Usage:
+ check_ntp_time -H <host> [-4|-6] [-w <warn>] [-c <crit>] [-v verbose] [-o <time offset>] [-d <delay>]
++ ./check_nwstat
+check_nwstat: Could not parse arguments
+Usage:
+check_nwstat -H host [-p port] [-v variable] [-w warning] [-c critical] [-t timeout]
++ ./check_oracle
+Cannot determine ORACLE_HOME for sid 
++ ./check_overcr
+check_overcr: Could not parse arguments
+Usage:
+check_overcr -H host [-p port] [-v variable] [-w warning] [-c critical] [-t timeout]
++ ./check_pgsql
+CRITICAL - no connection to 'template1' (could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+).
++ ./check_ping
+check_ping: Could not parse arguments
+Usage:
+check_ping -H <host_address> -w <wrta>,<wpl>% -c <crta>,<cpl>%
+ [-p packets] [-t timeout] [-4|-6]
++ ./check_pop
+check_pop: No arguments found
+Usage:
+check_pop -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_procs
+PROCS OK: 28 processes | procs=28;;;0;
++ ./check_radius
+check_radius: Hostname was not supplied
+Usage:
+check_radius -H host -F config_file -u username -p password
+			[-P port] [-t timeout] [-r retries] [-e expect]
+			[-n nas-id] [-N nas-ip-addr]
++ ./check_real
+check_real: Could not parse arguments
+Usage:
+check_real -H host [-e expect] [-p port] [-w warn] [-c crit] [-t timeout] [-v]
++ ./check_rpc
+Usage: 
+ check_rpc -H host -C rpc_command [-p port] [-c program_version] [-u|-t] [-v]
+ check_rpc [-h | --help]
+ check_rpc [-V | --version]
++ ./check_sensors
+WARNING - sensors returned state 1
++ ./check_simap
+check_simap: No arguments found
+Usage:
+check_simap -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_smtp
+check_smtp: Could not parse arguments
+Usage:
+check_smtp -H host [-p port] [-4|-6] [-e expect] [-C command] [-R response] [-f from addr]
+[-A authtype -U authuser -P authpass] [-w warn] [-c crit] [-t timeout] [-q]
+[-F fqdn] [-S] [-L] [-D warn days cert expire[,crit days cert expire]] [--sni] [-v] 
++ ./check_snmp
+check_snmp: Could not parse arguments
+Usage:
+check_snmp -H <ip_address> -o <OID> [-w warn_range] [-c crit_range]
+[-C community] [-s string] [-r regex] [-R regexi] [-t timeout] [-e retries]
+[-l label] [-u units] [-p port-number] [-d delimiter] [-D output-delimiter]
+[-m miblist] [-P snmp version] [-N context] [-L seclevel] [-U secname]
+[-a authproto] [-A authpasswd] [-x privproto] [-X privpasswd] [--strict]
++ ./check_spop
+check_spop: No arguments found
+Usage:
+check_spop -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_ssh
+check_ssh: Could not parse arguments
+Usage:
+check_ssh  [-4|-6] [-t <timeout>] [-r <remote version>] [-p <port>] <host>
++ ./check_ssl_validity
+check_ssl_validity -H <cert hostname> [-I <IP/host>] [-p <port>]
+[-t <timeout>] [-w <expire warning (days)>] [-c <expire critical (dats)>]
+[-C (CRL update frequency in seconds)] [-d (debug)] [--ocsp] [--ocsp-host]
+
+Will look for hostname provided with -H in the certificate, but will contact
+server with host/IP provided by -I (optional)
++ ./check_ssmtp
+check_ssmtp: No arguments found
+Usage:
+check_ssmtp -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_swap
+check_swap: Could not parse arguments
+Usage:
+ check_swap [-av] -w <percent_free>% -c <percent_free>%
+  -w <bytes_free> -c <bytes_free> [-n <state>]
++ ./check_tcp
+check_tcp: No arguments found
+Usage:
+check_tcp -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_time
+
+
+Usage:
+check_time -H <host_address> [-p port] [-u] [-w variance] [-c variance]
+ [-W connect_time] [-C connect_time] [-t timeout]
++ ./check_udp
+check_udp: No arguments found
+Usage:
+check_udp -H host -p port [-w <warning time>] [-c <critical time>] [-s <send string>]
+[-e <expect string>] [-q <quit string>][-m <maximum bytes>] [-d <delay>]
+[-t <timeout seconds>] [-r <refuse state>] [-M <mismatch state>] [-v] [-4|-6] [-j]
+[-D <warn days cert expire>[,<crit days cert expire>]] [-S <use SSL>] [-E]
+[-N <server name indication>]
++ ./check_ups
+check_ups: Could not parse arguments
+Usage:
+check_ups -H host -u ups [-p port] [-v variable] [-w warn_value] [-c crit_value] [-e] [-to to_sec] [-T]
++ ./check_uptime
+Uptime OK: 56 day(s) 12 hour(s) 6 minute(s) | uptime=81366.000000;;;
++ ./check_users
+
+
+Usage:
+check_users -w <users> -c <users>
++ ./check_wave
+Usage: ./check_wave -H <host> [-w <warn>] [-c <crit>]
