@@ -207,7 +207,7 @@ RUN mkdir -p ${NAGIOS_HOME}  && \
                         libltdl libintl openssl-dev php7-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
-                        perl-timedate perl-libwww perl-text-glob
+                        perl-timedate perl-libwww perl-text-glob samba-client
 
 WORKDIR ${NAGIOS_HOME}
 COPY --from=builder-compile ${NAGIOS_HOME} ${NAGIOS_HOME}
