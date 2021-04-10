@@ -35,9 +35,9 @@ jobs:
         id: cache
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.base_ref }}
+          key: ${{ runner.os }}-buildx-${{ github.ref }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ github.base_ref }}
+            ${{ runner.os }}-buildx-${{ github.ref }}
       -
         name: Docker Buildx (build and cache)
         run: |
@@ -51,6 +51,7 @@ jobs:
       -
         name: Docker Buildx (push)
         run: |
+          echo "== This branch is : ${GITHUB_REF}"
           docker buildx build \
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
