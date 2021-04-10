@@ -30,14 +30,14 @@ jobs:
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
-        name: Cache Docker layers
+        name: Cache Docker layers for this Git branch
         uses: actions/cache@v2
         id: cache
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ github.base_ref }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-${{ github.base_ref }}
       -
         name: Docker Buildx (build and cache)
         run: |
