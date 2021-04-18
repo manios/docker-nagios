@@ -1,7 +1,21 @@
 
 # Changelog
 
-This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will an incremental unsigned integer. In this document we will describe the contents of every image in every build.
+This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
+
+## Build 4 (2021-04-20)
+
+* Nagios core: v4.4.6
+* Nagios plugins: v2.3.3
+* NRPE: 4.0.3
+
+### Bug Fixes
+
+* Use `alpine:3.11` as base image as musl libc 1.2.2-r0 causes multiple issues. ([#3](https://github.com/manios/docker-nagios/issues/3) ,[#24](https://github.com/manios/docker-nagios/issues/24))
+
+### Features
+
+* Add a new build flavour for `arm64`. ([#25](https://github.com/manios/docker-nagios/issues/25))
 
 ## Build 3 (2021-04-08)
 

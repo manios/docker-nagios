@@ -9,7 +9,7 @@ Build Status:
 
 ## Quick reference
 
-* **Supported architectures**: `x86`, `amd64`, `arm/v6`, `arm/v7`
+* **Supported architectures**: `x86`, `amd64`, `arm/v6`, `arm/v7`, `arm64`
 * **Where to file issues**: https://github.com/manios/docker-nagios/issues
 
 ## Supported tags and respective `Dockerfile` links
@@ -23,13 +23,13 @@ For more information about the image versions you may refer to the [CHANGELOG](h
 Run with the example configuration with the following:
 
 ```sh
-docker run --name nagios4 -p 0.0.0.0:8080:80 manios/nagios:latest
+docker run --name nagios -p 0.0.0.0:8080:80 manios/nagios:latest
 ```
 
 alternatively you can use external Nagios configuration & log data with the following:
 
 ```sh
-docker run --name nagios4  \
+docker run --name nagios  \
   -v /path-to-nagios/etc/:/opt/nagios/etc/ \
   -v /path-to-nagios/var:/opt/nagios/var/ \
   -v /path-to-nagios/ssmtp.conf:/etc/ssmtp/ssmtp.conf \
@@ -79,7 +79,7 @@ This Docker image is designed with optimising resources usage in mind and is bui
 |Raspberry Pi 1|linux/arm/v6|
 |Raspberry Pi 2|linux/arm/v7|
 |Raspberry Pi 3|linux/arm/v7|
-|Raspberry Pi 4|linux/arm/v7|
+|Raspberry Pi 4|linux/arm/v7 or linux/arm64|
 
 ## Test configuration
 
