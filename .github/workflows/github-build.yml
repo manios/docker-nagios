@@ -45,7 +45,7 @@ jobs:
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7 \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --tag manios/nagios:4.4.6 \
             --output "type=image,push=true" .
       -
@@ -55,7 +55,7 @@ jobs:
           docker buildx build \
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7 \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --tag manios/nagios:4.4.6 \
             --output "type=image,push=true" .
       -
