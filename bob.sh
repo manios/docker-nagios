@@ -6,74 +6,74 @@
 
 NAGIOS_PLUGINS=/opt/nagios/libexec
 
-cmd_check_apt="$NAGIOS_PLUGINS/check_apt"
-cmd_check_breeze="$NAGIOS_PLUGINS/check_breeze"
-cmd_check_by_ssh="$NAGIOS_PLUGINS/check_by_ssh"
-cmd_check_clamd="$NAGIOS_PLUGINS/check_clamd"
-cmd_check_cluster="$NAGIOS_PLUGINS/check_cluster"
-cmd_check_dbi="$NAGIOS_PLUGINS/check_dbi"
-cmd_check_dhcp="$NAGIOS_PLUGINS/check_dhcp"
-cmd_check_dig="$NAGIOS_PLUGINS/check_dig"
-cmd_check_disk="$NAGIOS_PLUGINS/check_disk"
-cmd_check_disk_smb="$NAGIOS_PLUGINS/check_disk_smb"
-cmd_check_dns="$NAGIOS_PLUGINS/check_dns"
-cmd_check_dummy="$NAGIOS_PLUGINS/check_dummy"
-cmd_check_file_age="$NAGIOS_PLUGINS/check_file_age"
-cmd_check_flexlm="$NAGIOS_PLUGINS/check_flexlm"
-cmd_check_fping="$NAGIOS_PLUGINS/check_fping"
-cmd_check_ftp="$NAGIOS_PLUGINS/check_ftp"
-cmd_check_hpjd="$NAGIOS_PLUGINS/check_hpjd"
-cmd_check_http="$NAGIOS_PLUGINS/check_http"
-cmd_check_icmp="$NAGIOS_PLUGINS/check_icmp"
-cmd_check_ide_smart="$NAGIOS_PLUGINS/check_ide_smart"
-cmd_check_ifoperstatus="$NAGIOS_PLUGINS/check_ifoperstatus"
-cmd_check_ifstatus="$NAGIOS_PLUGINS/check_ifstatus"
-cmd_check_imap="$NAGIOS_PLUGINS/check_imap"
-cmd_check_ircd="$NAGIOS_PLUGINS/check_ircd"
-cmd_check_jabber="$NAGIOS_PLUGINS/check_jabber"
-cmd_check_ldap="$NAGIOS_PLUGINS/check_ldap"
-cmd_check_ldaps="$NAGIOS_PLUGINS/check_ldaps"
-cmd_check_load="$NAGIOS_PLUGINS/check_load"
-cmd_check_log="$NAGIOS_PLUGINS/check_log"
-cmd_check_mailq="$NAGIOS_PLUGINS/check_mailq"
-cmd_check_mrtg="$NAGIOS_PLUGINS/check_mrtg"
-cmd_check_mrtgtraf="$NAGIOS_PLUGINS/check_mrtgtraf"
-cmd_check_mysql="$NAGIOS_PLUGINS/check_mysql"
-cmd_check_mysql_query="$NAGIOS_PLUGINS/check_mysql_query"
-cmd_check_nagios="$NAGIOS_PLUGINS/check_nagios"
-cmd_check_nntp="$NAGIOS_PLUGINS/check_nntp"
-cmd_check_nntps="$NAGIOS_PLUGINS/check_nntps"
-cmd_check_nrpe="$NAGIOS_PLUGINS/check_nrpe"
-cmd_check_nt="$NAGIOS_PLUGINS/check_nt"
-cmd_check_ntp="$NAGIOS_PLUGINS/check_ntp"
-cmd_check_ntp_peer="$NAGIOS_PLUGINS/check_ntp_peer"
-cmd_check_ntp_time="$NAGIOS_PLUGINS/check_ntp_time"
-cmd_check_nwstat="$NAGIOS_PLUGINS/check_nwstat"
-cmd_check_oracle="$NAGIOS_PLUGINS/check_oracle"
-cmd_check_overcr="$NAGIOS_PLUGINS/check_overcr"
-cmd_check_pgsql="$NAGIOS_PLUGINS/check_pgsql"
-cmd_check_ping="$NAGIOS_PLUGINS/check_ping"
-cmd_check_pop="$NAGIOS_PLUGINS/check_pop"
-cmd_check_procs="$NAGIOS_PLUGINS/check_procs"
-cmd_check_radius="$NAGIOS_PLUGINS/check_radius"
-cmd_check_real="$NAGIOS_PLUGINS/check_real"
-cmd_check_rpc="$NAGIOS_PLUGINS/check_rpc"
-cmd_check_sensors="$NAGIOS_PLUGINS/check_sensors"
-cmd_check_simap="$NAGIOS_PLUGINS/check_simap"
-cmd_check_smtp="$NAGIOS_PLUGINS/check_smtp"
-cmd_check_snmp="$NAGIOS_PLUGINS/check_snmp"
-cmd_check_spop="$NAGIOS_PLUGINS/check_spop"
-cmd_check_ssh="$NAGIOS_PLUGINS/check_ssh"
-cmd_check_ssl_validity="$NAGIOS_PLUGINS/check_ssl_validity"
-cmd_check_ssmtp="$NAGIOS_PLUGINS/check_ssmtp"
-cmd_check_swap="$NAGIOS_PLUGINS/check_swap"
-cmd_check_tcp="$NAGIOS_PLUGINS/check_tcp"
-cmd_check_time="$NAGIOS_PLUGINS/check_time"
-cmd_check_udp="$NAGIOS_PLUGINS/check_udp"
-cmd_check_ups="$NAGIOS_PLUGINS/check_ups"
-cmd_check_uptime="$NAGIOS_PLUGINS/check_uptime"
-cmd_check_users="$NAGIOS_PLUGINS/check_users"
-cmd_check_wave="$NAGIOS_PLUGINS/check_wave"
+cmd_check_apt="$NAGIOS_PLUGINS/check_apt 2>&1"
+cmd_check_breeze="$NAGIOS_PLUGINS/check_breeze 2>&1"
+cmd_check_by_ssh="$NAGIOS_PLUGINS/check_by_ssh 2>&1"
+cmd_check_clamd="$NAGIOS_PLUGINS/check_clamd 2>&1"
+cmd_check_cluster="$NAGIOS_PLUGINS/check_cluster 2>&1"
+cmd_check_dbi="$NAGIOS_PLUGINS/check_dbi 2>&1"
+cmd_check_dhcp="$NAGIOS_PLUGINS/check_dhcp 2>&1"
+cmd_check_dig="$NAGIOS_PLUGINS/check_dig 2>&1"
+cmd_check_disk="$NAGIOS_PLUGINS/check_disk 2>&1"
+cmd_check_disk_smb="$NAGIOS_PLUGINS/check_disk_smb 2>&1"
+cmd_check_dns="$NAGIOS_PLUGINS/check_dns 2>&1"
+cmd_check_dummy="$NAGIOS_PLUGINS/check_dummy 2>&1"
+cmd_check_file_age="$NAGIOS_PLUGINS/check_file_age 2>&1"
+cmd_check_flexlm="$NAGIOS_PLUGINS/check_flexlm 2>&1"
+cmd_check_fping="$NAGIOS_PLUGINS/check_fping 2>&1"
+cmd_check_ftp="$NAGIOS_PLUGINS/check_ftp 2>&1"
+cmd_check_hpjd="$NAGIOS_PLUGINS/check_hpjd 2>&1"
+cmd_check_http="$NAGIOS_PLUGINS/check_http 2>&1"
+cmd_check_icmp="$NAGIOS_PLUGINS/check_icmp 2>&1"
+cmd_check_ide_smart="$NAGIOS_PLUGINS/check_ide_smart 2>&1"
+cmd_check_ifoperstatus="$NAGIOS_PLUGINS/check_ifoperstatus 2>&1"
+cmd_check_ifstatus="$NAGIOS_PLUGINS/check_ifstatus 2>&1"
+cmd_check_imap="$NAGIOS_PLUGINS/check_imap 2>&1"
+cmd_check_ircd="$NAGIOS_PLUGINS/check_ircd 2>&1"
+cmd_check_jabber="$NAGIOS_PLUGINS/check_jabber 2>&1"
+cmd_check_ldap="$NAGIOS_PLUGINS/check_ldap 2>&1"
+cmd_check_ldaps="$NAGIOS_PLUGINS/check_ldaps 2>&1"
+cmd_check_load="$NAGIOS_PLUGINS/check_load 2>&1"
+cmd_check_log="$NAGIOS_PLUGINS/check_log 2>&1"
+cmd_check_mailq="$NAGIOS_PLUGINS/check_mailq 2>&1"
+cmd_check_mrtg="$NAGIOS_PLUGINS/check_mrtg 2>&1"
+cmd_check_mrtgtraf="$NAGIOS_PLUGINS/check_mrtgtraf 2>&1"
+cmd_check_mysql="$NAGIOS_PLUGINS/check_mysql 2>&1"
+cmd_check_mysql_query="$NAGIOS_PLUGINS/check_mysql_query 2>&1"
+cmd_check_nagios="$NAGIOS_PLUGINS/check_nagios 2>&1"
+cmd_check_nntp="$NAGIOS_PLUGINS/check_nntp 2>&1"
+cmd_check_nntps="$NAGIOS_PLUGINS/check_nntps 2>&1"
+cmd_check_nrpe="$NAGIOS_PLUGINS/check_nrpe 2>&1"
+cmd_check_nt="$NAGIOS_PLUGINS/check_nt 2>&1"
+cmd_check_ntp="$NAGIOS_PLUGINS/check_ntp 2>&1"
+cmd_check_ntp_peer="$NAGIOS_PLUGINS/check_ntp_peer 2>&1"
+cmd_check_ntp_time="$NAGIOS_PLUGINS/check_ntp_time 2>&1"
+cmd_check_nwstat="$NAGIOS_PLUGINS/check_nwstat 2>&1"
+cmd_check_oracle="$NAGIOS_PLUGINS/check_oracle 2>&1"
+cmd_check_overcr="$NAGIOS_PLUGINS/check_overcr 2>&1"
+cmd_check_pgsql="$NAGIOS_PLUGINS/check_pgsql 2>&1"
+cmd_check_ping="$NAGIOS_PLUGINS/check_ping 2>&1"
+cmd_check_pop="$NAGIOS_PLUGINS/check_pop 2>&1"
+cmd_check_procs="$NAGIOS_PLUGINS/check_procs 2>&1"
+cmd_check_radius="$NAGIOS_PLUGINS/check_radius 2>&1"
+cmd_check_real="$NAGIOS_PLUGINS/check_real 2>&1"
+cmd_check_rpc="$NAGIOS_PLUGINS/check_rpc 2>&1"
+cmd_check_sensors="$NAGIOS_PLUGINS/check_sensors 2>&1"
+cmd_check_simap="$NAGIOS_PLUGINS/check_simap 2>&1"
+cmd_check_smtp="$NAGIOS_PLUGINS/check_smtp 2>&1"
+cmd_check_snmp="$NAGIOS_PLUGINS/check_snmp 2>&1"
+cmd_check_spop="$NAGIOS_PLUGINS/check_spop 2>&1"
+cmd_check_ssh="$NAGIOS_PLUGINS/check_ssh 2>&1"
+cmd_check_ssl_validity="$NAGIOS_PLUGINS/check_ssl_validity 2>&1"
+cmd_check_ssmtp="$NAGIOS_PLUGINS/check_ssmtp 2>&1"
+cmd_check_swap="$NAGIOS_PLUGINS/check_swap 2>&1"
+cmd_check_tcp="$NAGIOS_PLUGINS/check_tcp 2>&1"
+cmd_check_time="$NAGIOS_PLUGINS/check_time 2>&1"
+cmd_check_udp="$NAGIOS_PLUGINS/check_udp 2>&1"
+cmd_check_ups="$NAGIOS_PLUGINS/check_ups 2>&1"
+cmd_check_uptime="$NAGIOS_PLUGINS/check_uptime 2>&1"
+cmd_check_users="$NAGIOS_PLUGINS/check_users 2>&1"
+cmd_check_wave="$NAGIOS_PLUGINS/check_wave 2>&1"
 
 
 # TESTING AREA! 
@@ -82,7 +82,7 @@ cmd_check_wave="$NAGIOS_PLUGINS/check_wave"
 
 @test "Test run check_apt with no arguments" {
   result=$(${cmd_check_apt})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "APT UNKNOWN: 0 packages available for upgrade"
   [ "$?" -eq 0 ]
 }
 
@@ -244,246 +244,246 @@ cmd_check_wave="$NAGIOS_PLUGINS/check_wave"
 
 @test "Test run check_load with no arguments" {
   result=$(${cmd_check_load})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_load: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_log with no arguments" {
   result=$(${cmd_check_log})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Usage: check_log -F logfile -O oldlog -q query"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_mailq with no arguments" {
   result=$(${cmd_check_mailq})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Usage: check_mailq -w"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_mrtg with no arguments" {
   result=$(${cmd_check_mrtg})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_mrtg: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_mrtgtraf with no arguments" {
   result=$(${cmd_check_mrtgtraf})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_mrtgtraf: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_mysql with no arguments" {
   result=$(${cmd_check_mysql})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Can't connect to local MySQL server through socket"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_mysql_query with no arguments" {
   result=$(${cmd_check_mysql_query})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Must specify a SQL query to run"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nagios with no arguments" {
   result=$(${cmd_check_nagios})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_nagios: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nntp with no arguments" {
   result=$(${cmd_check_nntp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_nntp: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nntps with no arguments" {
   result=$(${cmd_check_nntps})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_nntps: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nrpe with no arguments" {
   result=$(${cmd_check_nrpe})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Incorrect command line arguments supplied"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nt with no arguments" {
   result=$(${cmd_check_nt})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_nt: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ntp with no arguments" {
   result=$(${cmd_check_ntp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ntp -H"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ntp_peer with no arguments" {
   result=$(${cmd_check_ntp_peer})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ntp_peer -H <host>"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ntp_time with no arguments" {
   result=$(${cmd_check_ntp_time})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ntp_time -H <host>"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_nwstat with no arguments" {
   result=$(${cmd_check_nwstat})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_nwstat: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_oracle with no arguments" {
   result=$(${cmd_check_oracle})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Cannot determine ORACLE_HOME for sid "
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_overcr with no arguments" {
   result=$(${cmd_check_overcr})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_overcr: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_pgsql with no arguments" {
   result=$(${cmd_check_pgsql})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "CRITICAL - no connection to 'template1'"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ping with no arguments" {
   result=$(${cmd_check_ping})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ping: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_pop with no arguments" {
   result=$(${cmd_check_pop})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_pop: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_procs with no arguments" {
   result=$(${cmd_check_procs})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "PROCS OK:"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_radius with no arguments" {
   result=$(${cmd_check_radius})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_radius: Hostname was not supplied"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_real with no arguments" {
   result=$(${cmd_check_real})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_real: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_rpc with no arguments" {
   result=$(${cmd_check_rpc})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_rpc -H host"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_sensors with no arguments" {
   result=$(${cmd_check_sensors})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "WARNING - sensors returned state"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_simap with no arguments" {
   result=$(${cmd_check_simap})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_simap: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_smtp with no arguments" {
   result=$(${cmd_check_smtp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_smtp: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_snmp with no arguments" {
   result=$(${cmd_check_snmp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_snmp: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_spop with no arguments" {
   result=$(${cmd_check_spop})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_spop: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ssh with no arguments" {
   result=$(${cmd_check_ssh})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ssh: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ssl_validity with no arguments" {
   result=$(${cmd_check_ssl_validity})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ssl_validity -H <cert"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ssmtp with no arguments" {
   result=$(${cmd_check_ssmtp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ssmtp: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_swap with no arguments" {
   result=$(${cmd_check_swap})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_swap: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_tcp with no arguments" {
   result=$(${cmd_check_tcp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_tcp: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_time with no arguments" {
   result=$(${cmd_check_time})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_time -H <host_address>"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_udp with no arguments" {
   result=$(${cmd_check_udp})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_udp: No arguments found"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_ups with no arguments" {
   result=$(${cmd_check_ups})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_ups: Could not parse arguments"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_uptime with no arguments" {
   result=$(${cmd_check_uptime})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Uptime OK:"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_users with no arguments" {
   result=$(${cmd_check_users})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "check_users -w"
   [ "$?" -eq 0 ]
 }
 
 @test "Test run check_wave with no arguments" {
   result=$(${cmd_check_wave})
-  echo "$result" | egrep overlay
+  echo "$result" | egrep "Usage: ./check_wave"
   [ "$?" -eq 0 ]
 }
