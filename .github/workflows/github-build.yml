@@ -11,6 +11,10 @@ jobs:
   nagios-build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set the value of a custom my tag
+        id: step_one
+        run: |
+          echo "action_mytag=build-5-snapshot" >> $GITHUB_ENV
       -
         name: Login to DockerHub
         uses: docker/login-action@v1
@@ -46,7 +50,7 @@ jobs:
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
-            --tag manios/nagios:4.4.6 \
+            --tag manios/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
       -
         name: Docker Buildx (push)
@@ -56,9 +60,9 @@ jobs:
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
-            --tag manios/nagios:4.4.6 \
+            --tag manios/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect manios/nagios:4.4.6
+          docker buildx imagetools inspect manios/nagios:${{ env.action_mytag }}
