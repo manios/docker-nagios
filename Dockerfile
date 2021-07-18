@@ -41,10 +41,10 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     : '#######################################' && \
     : '# Creating an associative array with the platforms and their respective gosu release DOES NOT WORK in /bin/sh' && \
     echo "Arguments TARGETPLATFORM: ${TARGETPLATFORM} and BUILDPLATFORM: ${BUILDPLATFORM}" && \
-    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; print gosuBinArr[$0];}' > mygosuver.txt && \
+    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
     gosuPlatform=$(cat mygosuver.txt) && \
     echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.12/${gosuPlatform}"  && \
+    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
