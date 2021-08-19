@@ -3,6 +3,16 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 6 (2021-08-20)
+
+* Nagios core: v4.4.6
+* Nagios plugins: v2.3.3
+* NRPE: 4.0.3
+
+### Bug Fixes
+
+* Fix `check_mysql_query` plugin segmentation fault error. ([#33](https://github.com/manios/docker-nagios/issues/33))
+
 ## Build 5 (2021-08-14)
 
 * Nagios core: v4.4.6
