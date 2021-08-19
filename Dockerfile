@@ -128,6 +128,10 @@ RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n =
        egrep -rl "\<sys\/poll.h\>" . | xargs sed -i 's/<sys\/poll.h>/<poll.h>/g' && \
        egrep -rl "\"sys\/poll.h\"" . | xargs sed -i 's/"sys\/poll.h"/"poll.h"/g' && \
        echo "OK" && \
+       echo -n "Patching check_mysql_query plugin. For more info please check: https://gitlab.alpinelinux.org/alpine/aports/-/issues/12601" && \
+       wget "https://gitlab.alpinelinux.org/alpine/aports/-/raw/074d8cfb5ef7bd3fdb922b6a6cb86f0fd5db346d/main/nagios-plugins/check_mysql_query-fix-use-after-free.patch" && \
+       patch plugins/check_mysql_query.c check_mysql_query-fix-use-after-free.patch && \
+       echo "OK" && \
        echo -e "\n\n ===========================\n Compile Nagios Plugins\n ===========================\n" && \
        make && \
        echo "Nagios plugins compile successfully: OK" && \
