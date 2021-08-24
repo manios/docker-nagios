@@ -100,8 +100,12 @@ RUN    ls -l /tmp && cd /tmp && \
             --with-command-group=${NAGIOS_CMDGROUP}  \
             --with-nagios-user=${NAGIOS_USER}        \
             --with-nagios-group=${NAGIOS_GROUP}      && \
+       : 'Apply patches to Nagios Core sources:' && \
        echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
        sed -i 's/<sys\/poll.h>/<poll.h>/g' ./include/config.h && \
+       echo -n "Patching cgi scripts in order not to throw segmentation fault. For more info please check: https://gitlab.alpinelinux.org/alpine/aports/-/issues/12516" && \
+       wget "https://gitlab.alpinelinux.org/alpine/aports/-/raw/f22889166a9e09b63fbfa1ddc34d3057813931f1/main/nagios/cgi-pairlist-truncation-fix.patch" && \
+       patch cgi/getcgi.c cgi-pairlist-truncation-fix.patch && \
        echo -e "\n\n ===========================\n Compile Nagios Core\n ===========================\n" && \
        make all && \
        echo -e "\n\n ===========================\n  Install Nagios Core\n ===========================\n" && \
