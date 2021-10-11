@@ -91,6 +91,12 @@ docker exec -it mynagioscontainer bin/nagios -v etc/nagios.cfg
 
 ## Troubleshooting
 
+### Nagios keeps restarting or shows a strange behaviour
+
+In docker tag `build-5`, `build-6`, `build-7` we have used Alpine 3.14 as our base image. This comes with security updates which may cause trouble as described in [Release Notes forAlpine 3.14.0 > faccessat2](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0#faccessat2).
+
+In order to resolve this issue you should use docker tag `build-8` or you can follow the workarounds provided here: [#32 (comment)](https://github.com/manios/docker-nagios/issues/32#issuecomment-940355201).
+
 ### My image does not run on Raspberry Pi
 
 As already mentioned in [#17](https://github.com/manios/docker-nagios/issues/17), sometimes, because docker manifest related features are still experimental (after 2+ years of their introduction) it has happened when we tested in Raspberry Pi 1 (`arm-v6`) and Raspberry Pi 3 (`arm-v7`) that it does not download the `arm` image but the `amd64`.

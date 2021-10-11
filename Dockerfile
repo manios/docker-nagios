@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.14 as builder-base
+FROM alpine:3.12 as builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -106,6 +106,7 @@ RUN    ls -l /tmp && cd /tmp && \
        echo -n "Patching cgi scripts in order not to throw segmentation fault. For more info please check: https://gitlab.alpinelinux.org/alpine/aports/-/issues/12516" && \
        wget "https://gitlab.alpinelinux.org/alpine/aports/-/raw/f22889166a9e09b63fbfa1ddc34d3057813931f1/main/nagios/cgi-pairlist-truncation-fix.patch" && \
        patch cgi/getcgi.c cgi-pairlist-truncation-fix.patch && \
+       echo "OK" && \
        echo -e "\n\n ===========================\n Compile Nagios Core\n ===========================\n" && \
        make all && \
        echo -e "\n\n ===========================\n  Install Nagios Core\n ===========================\n" && \
