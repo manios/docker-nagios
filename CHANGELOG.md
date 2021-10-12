@@ -3,6 +3,16 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 8 (2021-10-21)
+
+* Nagios core: v4.4.6
+* Nagios plugins: v2.3.3
+* NRPE: 4.0.3
+
+### Bug Fixes
+
+* Rollback to Alpine 3.12 as base image as Alpine 3.14 causes multiple issues in ARM devices. ([#32](https://github.com/manios/docker-nagios/issues/32), [#35](https://github.com/manios/docker-nagios/issues/35))
+
 ## Build 7 (2021-08-24)
 
 * Nagios core: v4.4.6
