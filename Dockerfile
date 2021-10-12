@@ -207,7 +207,7 @@ LABEL name="Nagios" \
       nrpeVersion="4.0.3" \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="6"
+      build="7"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
