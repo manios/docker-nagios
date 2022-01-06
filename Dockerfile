@@ -34,7 +34,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
-                        net-snmp-tools && \
+                        net-snmp-tools bind-tools && \
                                                 \
     : '# For x64 the binary is : gosu-amd64' && \
     : '# For arm-v6 the binary is : gosu-armel' && \
