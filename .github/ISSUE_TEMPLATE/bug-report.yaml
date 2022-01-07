@@ -80,5 +80,15 @@ body:
         ```shell
         docker logs --tail 200 [container-name]
         ```
+
+        You can also append the Apache error or access logs by issuing the commands:
+
+        ```shell
+        docker exec -it [container-name] /bin/sh -c 'cat /var/log/apache2/error.log'
+
+        # AND
+
+        docker exec -it [container-name] /bin/sh -c 'cat /var/log/apache2/access.log
+        ```
       render: shell
 
