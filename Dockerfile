@@ -18,8 +18,8 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.4.6 \
-    NAGIOS_PLUGINS_VERSION=2.3.3 \
+    NAGIOS_VERSION=4.4.7 \
+    NAGIOS_PLUGINS_VERSION=2.4.0 \
     NRPE_VERSION=4.0.3 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
@@ -103,9 +103,6 @@ RUN    ls -l /tmp && cd /tmp && \
        : 'Apply patches to Nagios Core sources:' && \
        echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
        sed -i 's/<sys\/poll.h>/<poll.h>/g' ./include/config.h && \
-       echo -n "Patching cgi scripts in order not to throw segmentation fault. For more info please check: https://gitlab.alpinelinux.org/alpine/aports/-/issues/12516" && \
-       wget "https://gitlab.alpinelinux.org/alpine/aports/-/raw/f22889166a9e09b63fbfa1ddc34d3057813931f1/main/nagios/cgi-pairlist-truncation-fix.patch" && \
-       patch cgi/getcgi.c cgi-pairlist-truncation-fix.patch && \
        echo "OK" && \
        echo -e "\n\n ===========================\n Compile Nagios Core\n ===========================\n" && \
        make all && \
@@ -132,10 +129,6 @@ RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n =
        echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
        egrep -rl "\<sys\/poll.h\>" . | xargs sed -i 's/<sys\/poll.h>/<poll.h>/g' && \
        egrep -rl "\"sys\/poll.h\"" . | xargs sed -i 's/"sys\/poll.h"/"poll.h"/g' && \
-       echo "OK" && \
-       echo -n "Patching check_mysql_query plugin. For more info please check: https://gitlab.alpinelinux.org/alpine/aports/-/issues/12601" && \
-       wget "https://gitlab.alpinelinux.org/alpine/aports/-/raw/074d8cfb5ef7bd3fdb922b6a6cb86f0fd5db346d/main/nagios-plugins/check_mysql_query-fix-use-after-free.patch" && \
-       patch plugins/check_mysql_query.c check_mysql_query-fix-use-after-free.patch && \
        echo "OK" && \
        echo -e "\n\n ===========================\n Compile Nagios Plugins\n ===========================\n" && \
        make && \
@@ -203,9 +196,9 @@ FROM builder-base
 MAINTAINER Christos Manios <maniopaido@gmail.com>
 
 LABEL name="Nagios" \
-      nagiosVersion="4.4.6" \
-      nagiosPluginsVersion="2.3.3" \
-      nrpeVersion="4.0.3" \
+      nagiosVersion=$NAGIOS_VERSION \
+      nagiosPluginsVersion=$NAGIOS_PLUGINS_VERSION \
+      nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
       build="8"
