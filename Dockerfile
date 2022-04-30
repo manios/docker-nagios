@@ -234,7 +234,10 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
             dos2unix /etc/rsyslog.conf                && \
             dos2unix /usr/local/bin/start_nagios      && \
             dos2unix /etc/sv/**/run                   && \
-            dos2unix /etc/ssmtp/ssmtp.conf
+            dos2unix /etc/ssmtp/ssmtp.conf            && \
+            : '# Add mail symbolic links to ssmtp'   && \
+            ln -s $(which ssmtp) /bin/mail            && \
+            ln -s $(which ssmtp) /usr/sbin/mail
             
             
 EXPOSE 80
