@@ -3,6 +3,22 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 9 (2022-0x-xx)
+
+* Nagios core: v4.4.7
+* Nagios plugins: v2.4.0
+* NRPE: 4.0.3
+
+### Bug Fixes
+
+* Add missing dependencies to build legacy map cgi. ([#36](https://github.com/manios/docker-nagios/issues/36))
+* Add missing `bind-tools` package. ([#37](https://github.com/manios/docker-nagios/issues/37))
+
+### Features
+
+* Upgrade to Nagios Core to `4.4.7` and Nagios plugins to `2.4.0`. ([#42](https://github.com/manios/docker-nagios/issues/42))
+* Add mail client symbolic links to [sSMTP](https://wiki.debian.org/sSMTP). ([#39](https://github.com/manios/docker-nagios/issues/39))
+
 ## Build 8 (2021-10-21)
 
 * Nagios core: v4.4.6
