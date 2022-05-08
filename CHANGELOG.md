@@ -3,7 +3,7 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
-## Build 9 (2022-0x-xx)
+## Build 9 (2022-05-08)
 
 * Nagios core: v4.4.7
 * Nagios plugins: v2.4.0

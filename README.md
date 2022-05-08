@@ -5,7 +5,7 @@ Docker image for [Nagios](https://www.nagios.org/), the Industry Standard In IT 
 The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a different approach targetted to lightweight size and basic features.
 
 Build Status: 
- ![build status badge](https://github.com/manios/docker-nagios/workflows/Nagios%20Build/badge.svg?branch=master) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios) ![GitHub Manios Docker Nagios Licence](https://img.shields.io/github/license/manios/docker-nagios)
+ ![build status badge](https://github.com/manios/docker-nagios/workflows/Nagios%20Build/badge.svg?branch=master) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios) ![GitHub Manios Docker Nagios Licence](https://img.shields.io/badge/license-MIT-green)
 
 ## Quick reference
 
