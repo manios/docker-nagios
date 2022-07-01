@@ -80,6 +80,7 @@ This Docker image is designed with optimising resources usage in mind and is bui
 |Raspberry Pi 2|linux/arm/v7|
 |Raspberry Pi 3|linux/arm/v7 or linux/arm64|
 |Raspberry Pi 4|linux/arm/v7 or linux/arm64|
+|Apple Silicon M1|linux/arm64|
 
 ## Test configuration
 
