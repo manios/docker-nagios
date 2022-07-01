@@ -26,7 +26,7 @@ ENV NAGIOS_HOME=/opt/nagios \
 
 
 RUN addgroup -S ${NAGIOS_GROUP} && \
-    adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} && \
+    adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                         php7 php7-gd php7-cli runit parallel ssmtp \
