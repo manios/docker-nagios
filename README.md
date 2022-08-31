@@ -74,11 +74,11 @@ This Docker image is designed with optimising resources usage in mind and is bui
 
 |Hardware|Image OS/Arch|
 |-|-|
-|PC (32bit)|linux/386|
+|PC (32bit)|linux/i386|
 |PC (64bit)|linux/amd64
 |Raspberry Pi 1|linux/arm/v6|
 |Raspberry Pi 2|linux/arm/v7|
-|Raspberry Pi 3|linux/arm/v7|
+|Raspberry Pi 3|linux/arm/v7 or linux/arm64|
 |Raspberry Pi 4|linux/arm/v7 or linux/arm64|
 
 ## Test configuration
