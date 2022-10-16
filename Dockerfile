@@ -20,7 +20,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOSADMIN_PASS=nagios \
     NAGIOS_VERSION=4.4.7 \
     NAGIOS_PLUGINS_VERSION=2.4.0 \
-    NRPE_VERSION=4.0.3 \
+    NRPE_VERSION=4.1.0 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
 
