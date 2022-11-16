@@ -3,6 +3,18 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 10 (2022-11-17)
+
+* Nagios core: v4.4.8
+* Nagios plugins: v2.4.2
+* NRPE: 4.1.0
+
+### Features
+
+* Upgrade to Nagios Core to `4.4.8`, Nagios plugins to `2.4.2` and NRPE to `4.1.0`. ([#49](https://github.com/manios/docker-nagios/issues/42), [#50](https://github.com/manios/docker-nagios/issues/50), [#51](https://github.com/manios/docker-nagios/issues/51))
+* Enable again automatic update checks as they are fixed in Nagios 4.4.8. ([nagioscore/#861](https://github.com/NagiosEnterprises/nagioscore/issues/861))
+* Updating adduser options to include username. ([#44](https://github.com/manios/docker-nagios/pull/44))
+
 ## Build 9 (2022-05-08)
 
 * Nagios core: v4.4.7
