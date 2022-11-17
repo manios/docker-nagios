@@ -19,7 +19,7 @@ jobs:
           echo "github.action_path : ${{ github.action_path }}"
           echo "github.actor : ${{ github.actor }}"
           echo "github.base_ref : ${{ github.base_ref }}"
-          echo "github.event : ${{ github.event }}"
+          echo "github.event : ${{ toJson(github.event) }}"
           echo "github.event_name : ${{ github.event_name }}"
           echo "github.event_path : ${{ github.event_path }}"
           echo "github.head_ref : ${{ github.head_ref }}"
