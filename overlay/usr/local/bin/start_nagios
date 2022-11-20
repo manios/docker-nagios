@@ -31,11 +31,6 @@ echo -n "Removing rsyslogd PID file before starting it ..."
 (rm -f /var/run/rsyslogd.pid || true)
 echo "OK"
 
-# Temporary workaround for Nagios 4.4.7 automatic update check issue
-echo -n "Disable automatic updates due to SSL issue in Nagios 4.4.7 (https://github.com/NagiosEnterprises/nagioscore/issues/861) ..."
-sed -i 's/check_for_updates=./check_for_updates=0/g' "${NAGIOS_HOME}/etc/nagios.cfg"
-echo "OK"
-
 # This function sets the timezone to Nagios and Apache configuration files
 setTimezone() {
 

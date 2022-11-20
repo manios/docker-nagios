@@ -19,7 +19,7 @@ jobs:
           echo "github.action_path : ${{ github.action_path }}"
           echo "github.actor : ${{ github.actor }}"
           echo "github.base_ref : ${{ github.base_ref }}"
-          echo "github.event : ${{ github.event }}"
+          echo "github.event : ${{ toJson(github.event) }}"
           echo "github.event_name : ${{ github.event_name }}"
           echo "github.event_path : ${{ github.event_path }}"
           echo "github.head_ref : ${{ github.head_ref }}"
@@ -54,25 +54,25 @@ jobs:
         run: |
           echo "My docker tag will be: ${{ env.action_mytag }}"
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
       -
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
         name: Cache Docker layers for this Git branch
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache
         with:
           path: /tmp/.buildx-cache

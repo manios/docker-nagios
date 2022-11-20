@@ -18,15 +18,15 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.4.7 \
-    NAGIOS_PLUGINS_VERSION=2.4.0 \
-    NRPE_VERSION=4.0.3 \
+    NAGIOS_VERSION=4.4.8 \
+    NAGIOS_PLUGINS_VERSION=2.4.2 \
+    NRPE_VERSION=4.1.0 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
 
 
 RUN addgroup -S ${NAGIOS_GROUP} && \
-    adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} && \
+    adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                         php7 php7-gd php7-cli runit parallel ssmtp \
@@ -36,14 +36,16 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
                         net-snmp-tools bind-tools gd gd-dev && \
                                                 \
+    : '# For x86 the binary is : gosu-i386' && \
     : '# For x64 the binary is : gosu-amd64' && \
     : '# For arm-v6 the binary is : gosu-armel' && \
     : '# For arm-v7 the binary is : gosu-armhf' && \
     : '# For arm64 the binary is : gosu-arm64' && \
+    : '# For arm64/v8 the binary is : gosu-arm64' && \
     : '#######################################' && \
     : '# Creating an associative array with the platforms and their respective gosu release DOES NOT WORK in /bin/sh' && \
     echo "Arguments TARGETPLATFORM: ${TARGETPLATFORM} and BUILDPLATFORM: ${BUILDPLATFORM}" && \
-    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
+    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
     gosuPlatform=$(cat mygosuver.txt) && \
     echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
     curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
@@ -201,7 +203,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="9"
+      build="10-snapshot"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2

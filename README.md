@@ -5,16 +5,14 @@ Docker image for [Nagios](https://www.nagios.org/), the Industry Standard In IT 
 The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a different approach targetted to lightweight size and basic features.
 
 Build Status: 
- ![build status badge](https://github.com/manios/docker-nagios/workflows/Nagios%20Build/badge.svg?branch=master) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios) ![GitHub Manios Docker Nagios Licence](https://img.shields.io/badge/license-MIT-green)
-
-## Quick reference
+ ![build status badge](https://github.com/manios/docker-nagios/workflows/Nagios%20Build/badge.svg?branch=master) [![](https://images.microbadger.com/badges/image/manios/nagios.svg)](https://microbadger.com/images/manios/nagios) [![Docker pulls badge](https://img.shields.io/docker/pulls/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios)  [![Docker stars badge](https://img.shields.io/docker/stars/manios/nagios.svg)](https://hub.docker.com/r/manios/nagios) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/manios/docker-nagios/blob/master/LICENCE)
 
 * **Available architectures**: `x86`, `amd64`, `arm/v6`, `arm/v7`, `arm64`
 * **Where to file issues**: https://github.com/manios/docker-nagios/issues
 
 ## Supported tags and respective `Dockerfile` links
 
-* `4.4.7`, `4.4`, `latest` [(4.4.7/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
+* `4.4.8`, `4.4`, `latest` [(4.4.8/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
 
 For more information about the image versions you may refer to the [CHANGELOG](https://github.com/manios/docker-nagios/blob/master/CHANGELOG.md)
 
@@ -74,12 +72,13 @@ This Docker image is designed with optimising resources usage in mind and is bui
 
 |Hardware|Image OS/Arch|
 |-|-|
-|PC (32bit)|linux/386|
+|PC (32bit)|linux/i386|
 |PC (64bit)|linux/amd64
 |Raspberry Pi 1|linux/arm/v6|
 |Raspberry Pi 2|linux/arm/v7|
-|Raspberry Pi 3|linux/arm/v7|
+|Raspberry Pi 3|linux/arm/v7 or linux/arm64|
 |Raspberry Pi 4|linux/arm/v7 or linux/arm64|
+|Apple Silicon M1|linux/arm64|
 
 ## Test configuration
 
