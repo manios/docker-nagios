@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.12 as builder-base
+FROM alpine:3.13 as builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
