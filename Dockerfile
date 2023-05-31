@@ -18,7 +18,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.4.11 \
+    NAGIOS_VERSION=4.4.12 \
     NAGIOS_PLUGINS_VERSION=2.4.4 \
     NRPE_VERSION=4.1.0 \
     APACHE_LOCK_DIR=/var/run \
@@ -203,7 +203,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="13"
+      build="14"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
