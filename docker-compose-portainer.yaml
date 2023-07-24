@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  nagios:
+    image: manios/nagios:latest
+    volumes:
+    # you may adjust your folder-mappings here
+    - /opt/containers/nagios/opt/nagios/etc:/opt/nagios/etc
+    - /opt/containers/nagios/opt/nagios/var:/opt/nagios/var
+    - /opt/containers/nagios/ssmtp:/etc/ssmtp
+    - /opt/containers/nagios/opt/Custom-Nagios-Plugins:/opt/Custom-Nagios-Plugins
+
+    ports:
+        - "9080:80"
+    
+    environment:
+      # yo may adjust username and password here or remove it to use the default
+      NAGIOSADMIN_USER: "godmode"
+      NAGIOSADMIN_PASS: "secretpass"
+      # set your timezone below like e.g.
+      #NAGIOS_TIMEZONE: "Europe/Berlin"
+      NAGIOS_TIMEZONE: "UTC"
