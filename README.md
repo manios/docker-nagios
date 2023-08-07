@@ -12,7 +12,7 @@ Build Status:
 
 ## Supported tags and respective `Dockerfile` links
 
-* `4.4.13`, `4.4`, `latest` [(4.4.12/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
+* `4.4.14`, `4.4`, `latest` [(4.4.14/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
 
 For more information about the image versions you may refer to the [CHANGELOG](https://github.com/manios/docker-nagios/blob/master/CHANGELOG.md)
 
