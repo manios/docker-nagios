@@ -88,6 +88,7 @@ jobs:
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --tag manios/nagios:${{ env.action_mytag }} \
             --output "type=image,push=false" .
       -
@@ -100,6 +101,7 @@ jobs:
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \            
             --tag manios/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
       -

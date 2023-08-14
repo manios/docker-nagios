@@ -203,7 +203,16 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="16-snapshot"
+      build="16" \
+      org.opencontainers.image.title="Nagios" \ 
+      org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
+      org.opencontainers.image.vendor="Nagios" \
+      org.opencontainers.image.authors="Christos Manios <maniopaido@gmail.com>" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
+      org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
+      org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
+      org.opencontainers.image.version="16"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
