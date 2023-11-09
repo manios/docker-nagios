@@ -34,7 +34,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
-                        net-snmp-tools bind-tools gd gd-dev wget && \
+                        net-snmp-tools bind-tools gd gd-dev && \
                                                 \
     : '# For x86 the binary is : gosu-i386' && \
     : '# For x64 the binary is : gosu-amd64' && \
@@ -73,7 +73,7 @@ RUN apk update && \
                         lm-sensors net-snmp-tools \
                         file freeradius-client-dev libdbi-dev libpq linux-headers mariadb-dev \
                         mariadb-connector-c-dev perl \
-                        net-snmp-dev openldap-dev openssl-dev postgresql-dev
+                        net-snmp-dev openldap-dev openssl-dev postgresql-dev wget
 
 # Download Nagios core, plugins and nrpe sources
 RUN    cd /tmp && \
