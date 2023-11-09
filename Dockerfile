@@ -34,7 +34,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
-                        net-snmp-tools bind-tools gd gd-dev && \
+                        net-snmp-tools bind-tools gd gd-dev wget && \
                                                 \
     : '# For x86 the binary is : gosu-i386' && \
     : '# For x64 the binary is : gosu-amd64' && \
@@ -53,8 +53,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
-   
-    
+
+
 ### ================================== ###
 ###   STAGE 2 COMPILE NAGIOS SOURCES   ###
 ### ================================== ###
@@ -75,7 +75,7 @@ RUN apk update && \
                         mariadb-connector-c-dev perl \
                         net-snmp-dev openldap-dev openssl-dev postgresql-dev
 
-# Download Nagios core, plugins and nrpe sources                        
+# Download Nagios core, plugins and nrpe sources
 RUN    cd /tmp && \
        echo -n "Downloading Nagios ${NAGIOS_VERSION} source code: " && \
        wget -O nagios-core.tar.gz "https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${NAGIOS_VERSION}.tar.gz" && \
@@ -157,7 +157,7 @@ RUN    echo -e "\n\n =====================\n  Configure NRPE\n =================
        cp src/check_nrpe ${NAGIOS_HOME}/libexec/                                && \
        echo "NRPE installed successfully: OK" && \
        echo -n "Final Nagios installed size: " && \
-       du -h -s ${NAGIOS_HOME} 
+       du -h -s ${NAGIOS_HOME}
 
 # Compile Nagios files
 # Create SSMTP configuration
@@ -186,7 +186,7 @@ RUN echo "use_timezone=${NAGIOS_TIMEZONE}" >> ${NAGIOS_HOME}/etc/nagios.cfg && \
 RUN mkdir -p /orig/apache2                     && \
     cp -r /etc/apache2/*  /orig/apache2        && \
     cp -r ${NAGIOS_HOME}/etc  /orig/etc        && \
-    cp -r ${NAGIOS_HOME}/var  /orig/var         
+    cp -r ${NAGIOS_HOME}/var  /orig/var
 
 
 ### ========================== ###
@@ -224,7 +224,7 @@ COPY --from=builder-compile /orig /orig
 
 ADD overlay/ /
 
-# Make 
+# Make
 RUN chmod +x /usr/local/bin/start_nagios                 \
             /etc/sv/apache/run                           \
             /etc/sv/nagios/run                           \
@@ -249,8 +249,8 @@ RUN chmod +x /usr/local/bin/start_nagios                 \
             : '# Add mail symbolic links to ssmtp'   && \
             ln -s $(which ssmtp) /bin/mail            && \
             ln -s $(which ssmtp) /usr/sbin/mail
-            
-            
+
+
 EXPOSE 80
 
 VOLUME "${NAGIOS_HOME}/var" "${NAGIOS_HOME}/etc" "/var/log/apache2" "/opt/Custom-Nagios-Plugins"
