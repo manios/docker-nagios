@@ -18,8 +18,8 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.4.14 \
-    NAGIOS_PLUGINS_VERSION=2.4.6 \
+    NAGIOS_VERSION=4.5.0 \
+    NAGIOS_PLUGINS_VERSION=2.4.7 \
     NRPE_VERSION=4.1.0 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
@@ -78,11 +78,11 @@ RUN apk update && \
 # Download Nagios core, plugins and nrpe sources
 RUN    cd /tmp && \
        echo -n "Downloading Nagios ${NAGIOS_VERSION} source code: " && \
-       wget -O nagios-core.tar.gz "https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${NAGIOS_VERSION}.tar.gz" && \
+       wget -O nagios-core.tar.gz "https://github.com/NagiosEnterprises/nagioscore/archive/refs/tags/nagios-${NAGIOS_VERSION}.tar.gz" && \
        echo -n -e "OK\nDownloading Nagios plugins ${NAGIOS_PLUGINS_VERSION} source code: " && \
-       wget -O nagios-plugins.tar.gz "https://github.com/nagios-plugins/nagios-plugins/archive/release-${NAGIOS_PLUGINS_VERSION}.tar.gz" && \
+       wget -O nagios-plugins.tar.gz "https://github.com/nagios-plugins/nagios-plugins/archive/refs/tags/release-${NAGIOS_PLUGINS_VERSION}.tar.gz" && \
        echo -n -e "OK\nDownloading NRPE ${NRPE_VERSION} source code: " && \
-       wget -O nrpe.tar.gz "https://github.com/NagiosEnterprises/nrpe/archive/nrpe-${NRPE_VERSION}.tar.gz" && \
+       wget -O nrpe.tar.gz "https://github.com/NagiosEnterprises/nrpe/archive/refs/tags/nrpe-${NRPE_VERSION}.tar.gz" && \
        env && \
        echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM !! == " && \
        echo "OK"
@@ -118,6 +118,7 @@ RUN    ls -l /tmp && cd /tmp && \
 
 # Compile Nagios Plugins
 RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n ===========================\n" && \
+       ls -lia /tmp && cd /tmp && \
        cd  /tmp/nagios-plugins-release-${NAGIOS_PLUGINS_VERSION} && \
        ./autogen.sh && \
        ./configure  --with-nagios-user=${NAGIOS_USER} \
@@ -203,7 +204,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="16" \
+      build="17" \
       org.opencontainers.image.title="Nagios" \
       org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
       org.opencontainers.image.vendor="Nagios" \
@@ -212,7 +213,7 @@ LABEL name="Nagios" \
       org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
       org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
       org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
-      org.opencontainers.image.version="16"
+      org.opencontainers.image.version="17"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
