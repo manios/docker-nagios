@@ -10,6 +10,8 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 * Nagios plugins: v2.4.7
 * NRPE: 4.1.0
 
+### Features
+
 * Upgrade to Nagios Core to `4.5.0`, Nagios plugins to `2.4.7`. ([#66](https://github.com/manios/docker-nagios/issues/66))
 * Avoid busybox wget `too many redirect` issue. ([#65](https://github.com/manios/docker-nagios/pull/65))
 
