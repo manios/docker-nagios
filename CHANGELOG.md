@@ -3,6 +3,16 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+
+## Build 17 (2023-11-20)
+
+* Nagios core: v4.5.0
+* Nagios plugins: v2.4.7
+* NRPE: 4.1.0
+
+* Upgrade to Nagios Core to `4.5.0`, Nagios plugins to `2.4.7`. ([#66](https://github.com/manios/docker-nagios/issues/66))
+* Avoid busybox wget `too many redirect` issue. ([#65](https://github.com/manios/docker-nagios/pull/65))
+
 ## Build 16 (2023-08-09)
 
 * Nagios core: v4.4.14
