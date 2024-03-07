@@ -72,7 +72,7 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
         name: Cache Docker layers for this Git branch
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache
         with:
           path: /tmp/.buildx-cache
