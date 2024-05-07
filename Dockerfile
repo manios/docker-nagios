@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.19 as builder-base
+FROM alpine:3.12 as builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -29,8 +29,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
-                        php83 php83-gd php83-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php83-apache2 procps tzdata \
+                        php7 php7-gd php7-cli runit parallel ssmtp \
+                        libltdl libintl openssl-dev php7-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
@@ -48,7 +48,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
     gosuPlatform=$(cat mygosuver.txt) && \
     echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.17/${gosuPlatform}"  && \
+    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
@@ -68,7 +68,7 @@ RUN apk update && \
     apk add --no-cache build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc autoconf \
                         gettext-dev linux-headers openssl-dev net-snmp net-snmp-tools \
-                        libcrypto3 libpq musl libldap libssl3 libdbi freeradius-client mariadb-connector-c \
+                        libcrypto1.1 libpq musl libldap libssl1.1 libdbi freeradius-client mariadb-connector-c \
                         openssh-client bind-tools samba-client fping grep rpcbind \
                         lm-sensors net-snmp-tools \
                         file freeradius-client-dev libdbi-dev libpq linux-headers mariadb-dev \
