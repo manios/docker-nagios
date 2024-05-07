@@ -29,8 +29,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
-                        php7 php7-gd php7-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php7-apache2 procps tzdata \
+                        php8 php8-gd php8-cli runit parallel ssmtp \
+                        libltdl libintl openssl-dev php8-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
@@ -48,7 +48,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
     gosuPlatform=$(cat mygosuver.txt) && \
     echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
+    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.17/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
