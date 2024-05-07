@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.18 as builder-base
+FROM alpine:3.19 as builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -29,8 +29,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
-                        php8 php8-gd php8-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php8-apache2 procps tzdata \
+                        php83 php83-gd php83-cli runit parallel ssmtp \
+                        libltdl libintl openssl-dev php83-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
