@@ -68,7 +68,7 @@ RUN apk update && \
     apk add --no-cache build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc autoconf \
                         gettext-dev linux-headers openssl-dev net-snmp net-snmp-tools \
-                        libcrypto1.1 libpq musl libldap libssl1.1 libdbi freeradius-client mariadb-connector-c \
+                        libcrypto3 libpq musl libldap libssl3 libdbi freeradius-client mariadb-connector-c \
                         openssh-client bind-tools samba-client fping grep rpcbind \
                         lm-sensors net-snmp-tools \
                         file freeradius-client-dev libdbi-dev libpq linux-headers mariadb-dev \
