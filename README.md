@@ -40,9 +40,9 @@ Notes:
 
 1. The container populates with default configuration files if the configuration directories are empty.
 1. The path for the custom plugins will be /opt/Custom-Nagios-Plugins, you will need to reference this directory in your configuration scripts.
-1. In order to receive mail notifications, you have to configure SSMTP. You can find example configuration in `docker-nagios`.
+1. In order to receive mail notifications, you have to configure SSMTP. You can find example configuration inside the container in the file `/etc/ssmtp/ssmtp.conf` or in the repository in [overlay/etc/ssmtp/ssmtp.conf](https://github.com/manios/docker-nagios/blob/master/overlay/etc/ssmtp/ssmtp.conf).
 
-For best results your Nagios container should have access to both IPv4 & IPv6 networks 
+For best results your Nagios container should have access to both IPv4 & IPv6 networks.
 
 ### Credentials
 
