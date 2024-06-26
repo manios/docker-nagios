@@ -6,6 +6,7 @@ name: Nagios Build
 # https://github.com/marketplace/actions/docker-setup-buildx
 # https://github.com/marketplace/actions/docker-login
 # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions/58034787
+
 on: [push]
 
 jobs:
