@@ -6,6 +6,7 @@ name: Nagios Build
 # https://github.com/marketplace/actions/docker-setup-buildx
 # https://github.com/marketplace/actions/docker-login
 # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions/58034787
+
 on: [push]
 
 jobs:
@@ -87,8 +88,8 @@ jobs:
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag manios/nagios:${{ env.action_mytag }} \
+            --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect manios/nagios:${{ env.action_mytag }}
+          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
