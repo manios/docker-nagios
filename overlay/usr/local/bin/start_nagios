@@ -21,6 +21,18 @@ if [ ! -f "${NAGIOS_HOME}/etc/htpasswd.users" ] ; then
   chown -R ${NAGIOS_USER}.${NAGIOS_GROUP} "${NAGIOS_HOME}/etc/htpasswd.users"
 fi
 
+# Set current $NAGIOSADMIN_USER to the configuration of $NAGIOS_HOME/etc/cgi.cfg
+if [ "${NAGIOSADMIN_USER}" != "nagiosadmin" ]; then
+    echo "Modifying ${NAGIOS_HOME}/etc/cgi.cfg in order to use ${NAGIOSADMIN_USER} as its authorised user"
+    sed -i "s|\(authorized_for_system_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_configuration_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_system_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_services=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_hosts=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_service_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_host_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+fi
+
 # Remove pid files
 
 echo -n "Removing Apache HTTPD PID file before starting it ..."
