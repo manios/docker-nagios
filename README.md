@@ -73,6 +73,31 @@ docker run -e "TZ=Europe/Athens" manios/nagios:latest
 
 This will configure and use globally `"Europe/Athens"` in both container and Nagios process.
 
+### Init scripts
+
+Since tag `build-31` the docker image is able to run custom init scripts at the first time the container runs. This is useful if you want to install extra software and plugins, customise the container or execute any initialisation script of your choice.
+
+This feature has the following characteristics in detail:
+
+* You can run one or more init scripts which have to be present in the `/container-entrypoint-init-scripts` container directory.
+* The custom init script(s) run to completion at the first container run. 
+* Nagios process starts after all init scripts complete successfully.
+* If any init script throws an error, the container is restarted.
+* When all init scripts run to completion (exit code 0), a special file is written to the container filesystem, in the path `${NAGIOS_HOME}/container_first_run`. This file acts as a flag which verifies that the init scripts will be executed only on the first run.
+* If you want your init scripts to run in a specific order, then make sure to name them by using a numeric prefix such as:
+    1. `0001-install-mongodb.sh`
+    1. `0002-install-jq.sh`
+    1. `0003-configure-custom-plugins.sh`
+
+You can also use a volume mount for your init scripts which can survive container deletions:
+
+```sh
+docker run -d --name nagios \
+    -p 8080:80 \
+    -v "$(pwd)/customscripts:/container-entrypoint-init-scripts" \
+    manios/nagios:latest
+```
+
 ## Flavours
 
 This Docker image is designed with optimising resources usage in mind and is build for multiple hardware architectures. The following matrix can be used to determine if your hardware architecture is represented in a docker image tag:

@@ -6,42 +6,70 @@ set -eu
 # this script becomes PID 1 inside the container, catches termination signals, and stops
 # processes managed by runit
 
-if [ -z "$(ls -A ${NAGIOS_HOME}/etc)" ]; then
-    echo "Started with empty ETC, copying example data in-place"
-    cp -Rp /orig/etc/* ${NAGIOS_HOME}/etc/
-fi
+# Prints a line by prepending the date in ISO-8601 format
+# usage: logDate MESSAGE
+#    ie: logDate "Spongebob"
+logDate() {
+    mydate=`date +"%Y-%m-%dT%H:%M:%S%z"`
 
-if [ -z "$(ls -A ${NAGIOS_HOME}/var)" ]; then
-    echo "Started with empty VAR, copying example data in-place"
-    cp -Rp /orig/var/* ${NAGIOS_HOME}/var/
-fi
+    echo "${mydate} $@"
+}
 
-if [ ! -f "${NAGIOS_HOME}/etc/htpasswd.users" ] ; then
-  htpasswd -c -b -s "${NAGIOS_HOME}/etc/htpasswd.users" "${NAGIOSADMIN_USER}" "${NAGIOSADMIN_PASS}"
-  chown -R ${NAGIOS_USER}:${NAGIOS_GROUP} "${NAGIOS_HOME}/etc/htpasswd.users"
-fi
+# Run custom scripts provided by the user
+# usage: run_custom_scripts PATH
+#    ie: run_custom_scripts /container-entrypoint-init-scripts
+# This runs *.sh files
+# Adapted from: https://github.com/gvenzl/oci-oracle-xe/blob/0cedd27ab04771789f1425639434d33940935f6c/container-entrypoint.sh
+run_custom_scripts() {
 
-# Set current $NAGIOSADMIN_USER to the configuration of $NAGIOS_HOME/etc/cgi.cfg
-if [ "${NAGIOSADMIN_USER}" != "nagiosadmin" ]; then
-    echo "Modifying ${NAGIOS_HOME}/etc/cgi.cfg in order to use ${NAGIOSADMIN_USER} as its authorised user"
-    sed -i "s|\(authorized_for_system_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_configuration_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_system_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_all_services=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_all_hosts=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_all_service_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-    sed -i "s|\(authorized_for_all_host_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
-fi
+  SCRIPTS_ROOT="${1}";
 
-# Remove pid files
+  # Check whether parameter has been passed on
+  if [ -z "${SCRIPTS_ROOT}" ]; then
+    echo "No SCRIPTS_ROOT passed on, no scripts will be run.";
+    return;
+  fi;
 
-echo -n "Removing Apache HTTPD PID file before starting it ..."
-(rm -f /var/run/apache2/httpd.pid || true)
-echo "OK"
+  # Execute custom provided files (only if directory exists and has files in it)
+  if [ -d "${SCRIPTS_ROOT}" ] && [ -n "$(ls -A "${SCRIPTS_ROOT}")" ]; then
 
-echo -n "Removing rsyslogd PID file before starting it ..."
-(rm -f /var/run/rsyslogd.pid || true)
-echo "OK"
+    echo -e "\nCONTAINER: Executing user defined scripts..."
+
+    run_custom_scripts_recursive ${SCRIPTS_ROOT}
+
+    echo -e "CONTAINER: DONE: Executing user defined scripts.\n"
+
+  fi;
+}
+
+# This recursive function traverses through sub directories by calling itself with them
+# usage: run_custom_scripts_recursive PATH
+#    ie: run_custom_scripts_recursive /container-entrypoint-init-scripts/001_subdir
+# This runs *.sh files and traveres in sub directories
+# Adapted from: https://github.com/gvenzl/oci-oracle-xe/blob/0cedd27ab04771789f1425639434d33940935f6c/container-entrypoint.sh
+run_custom_scripts_recursive() {
+  local f
+  for f in "${1}"/*; do
+    case "${f}" in
+      *.sh)
+        if [ -x "${f}" ]; then
+            echo -e "\nCONTAINER: running ${f} ...";     "${f}";     echo "CONTAINER: DONE: running ${f}"
+        else
+            echo -e "\nCONTAINER: sourcing ${f} ...";    . "${f}"    echo "CONTAINER: DONE: sourcing ${f}"
+        fi;
+        ;;
+
+      *)
+        if [ -d "${f}" ]; then
+            echo -e "\nCONTAINER: descending into ${f} ...";    run_custom_scripts_recursive "${f}";    echo "CONTAINER: DONE: descending into ${f}"
+        else
+            echo -e "\nCONTAINER: ignoring ${f}"
+        fi;
+        ;;
+    esac
+    echo "";
+  done
+}
 
 # This function sets the timezone to Nagios and Apache configuration files
 setTimezone() {
@@ -101,6 +129,60 @@ shutdown() {
   SHELL=/bin/bash parallel --no-notice 'timeout 5 /bin/bash -c "kill {} && wait {}" || kill -9 {}' ::: "${ORPHANS}" 2> /dev/null
   exit
 }
+
+### =========== ###
+### MAIN METHOD ###
+### =========== ###
+
+# If it is the first container startup / initialization,
+# execute any custom user scripts
+if [ ! -f "${NAGIOS_HOME}/container_first_run" ]; then
+    run_custom_scripts /container-entrypoint-init-scripts
+
+    # After scripts complete, create ${NAGIOS_HOME}/container_first_run
+    # file to mark the end of first startup
+    touch "${NAGIOS_HOME}/container_first_run"
+fi
+
+# If the $NAGIOS_HOME/etc directory is empty, copy example configuration
+if [ -z "$(ls -A ${NAGIOS_HOME}/etc)" ]; then
+    echo "Started with empty ETC, copying example data in-place"
+    cp -Rp /orig/etc/* ${NAGIOS_HOME}/etc/
+fi
+
+# If the $NAGIOS_HOME/var directory is empty, copy example data
+if [ -z "$(ls -A ${NAGIOS_HOME}/var)" ]; then
+    echo "Started with empty VAR, copying example data in-place"
+    cp -Rp /orig/var/* ${NAGIOS_HOME}/var/
+fi
+
+# If the htpasswd.users file does not exist, create a new one and place NAGIOSADMINUSER as
+# its first user
+if [ ! -f "${NAGIOS_HOME}/etc/htpasswd.users" ] ; then
+  htpasswd -c -b -s "${NAGIOS_HOME}/etc/htpasswd.users" "${NAGIOSADMIN_USER}" "${NAGIOSADMIN_PASS}"
+  chown -R ${NAGIOS_USER}:${NAGIOS_GROUP} "${NAGIOS_HOME}/etc/htpasswd.users"
+fi
+
+# Set current $NAGIOSADMIN_USER to the configuration of $NAGIOS_HOME/etc/cgi.cfg
+if [ "${NAGIOSADMIN_USER}" != "nagiosadmin" ]; then
+    echo "Modifying ${NAGIOS_HOME}/etc/cgi.cfg in order to use ${NAGIOSADMIN_USER} as its authorised user"
+    sed -i "s|\(authorized_for_system_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_configuration_information=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_system_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_services=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_hosts=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_service_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+    sed -i "s|\(authorized_for_all_host_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
+fi
+
+# Remove pid files
+echo -n "Removing Apache HTTPD PID file before starting it ..."
+(rm -f /var/run/apache2/httpd.pid || true)
+echo "OK"
+
+echo -n "Removing rsyslogd PID file before starting it ..."
+(rm -f /var/run/rsyslogd.pid || true)
+echo "OK"
 
 # Set timezones before start
 setTimezone
