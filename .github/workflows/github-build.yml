@@ -86,24 +86,41 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ github.ref }}
-      - name: Docker Buildx (build and cache) for DockerHub
+      - name: Docker Buildx (build and cache)
         run: |
           docker buildx build \
             --progress plain \
+            --cache-from "type=local,src=/tmp/.buildx-cache" \
+            --cache-to "type=local,dest=/tmp/.buildx-cache" \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
+            --label "gitCommit=${{ github.sha }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+            --output "type=image,push=false" .
+      - name: 'Docker Buildx: Push to Dockerhub'
+        run: |
+          echo "== This branch is : ${GITHUB_REF}"
+          echo "Will push image ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
+          docker buildx build \
+            --progress plain \
+            --cache-from "type=local,src=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
-      - name: Docker Buildx (build and cache) for GitHub Container Registry
+      - name: 'Docker Buildx: Push to GitHub Container Registry'
         run: |
+          echo "== This branch is : ${GITHUB_REF}"
+          echo "Will push image ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to GitHub Container Registry"
           docker buildx build \
             --progress plain \
+            --cache-from "type=local,src=/tmp/.buildx-cache" \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --tag ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
-            --output "type=image,push=true" .            
+            --output "type=image,push=true" .
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}

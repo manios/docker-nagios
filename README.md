@@ -16,6 +16,13 @@ Build Status:
 
 For more information about the image versions you may refer to the [CHANGELOG](https://github.com/manios/docker-nagios/blob/master/CHANGELOG.md)
 
+## Container registries
+
+Since `build-23` ([CHANGELOG](https://github.com/manios/docker-nagios/blob/build-23/CHANGELOG.md#build-23-2024-09-29)), the Nagios Docker image is available in Dockerhub and Github Container Registry (GHCR). You can pull it using one of the following ways:
+
+1. Dockerhub: `docker pull manios/nagios:latest`
+1. Github Container Registry: `docker pull ghcr.io/manios/nagios:latest`
+
 ## Running
 
 Run with the example configuration with the following:
