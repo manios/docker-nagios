@@ -6,6 +6,71 @@ set -eu
 # this script becomes PID 1 inside the container, catches termination signals, and stops
 # processes managed by runit
 
+# Prints a line by prepending the date in ISO-8601 format
+# usage: logDate MESSAGE
+#    ie: logDate "Spongebob"
+logDate() {
+    mydate=`date +"%Y-%m-%dT%H:%M:%S%z"`
+
+    echo "${mydate} $@"
+}
+
+# Run custom scripts provided by the user
+# usage: run_custom_scripts PATH
+#    ie: run_custom_scripts /container-entrypoint-initdb.d
+# This runs *.sh files
+# Adapted from: https://github.com/gvenzl/oci-oracle-xe/blob/0cedd27ab04771789f1425639434d33940935f6c/container-entrypoint.sh
+function run_custom_scripts {
+
+  SCRIPTS_ROOT="${1}";
+
+  # Check whether parameter has been passed on
+  if [ -z "${SCRIPTS_ROOT}" ]; then
+    echo "No SCRIPTS_ROOT passed on, no scripts will be run.";
+    return;
+  fi;
+
+  # Execute custom provided files (only if directory exists and has files in it)
+  if [ -d "${SCRIPTS_ROOT}" ] && [ -n "$(ls -A "${SCRIPTS_ROOT}")" ]; then
+
+    echo -e "\nCONTAINER: Executing user defined scripts..."
+
+    run_custom_scripts_recursive ${SCRIPTS_ROOT}
+
+    echo -e "CONTAINER: DONE: Executing user defined scripts.\n"
+
+  fi;
+}
+
+# This recursive function traverses through sub directories by calling itself with them
+# usage: run_custom_scripts_recursive PATH
+#    ie: run_custom_scripts_recursive /container-entrypoint-initdb.d/001_subdir
+# This runs *.sh files and traveres in sub directories
+# Adapted from: https://github.com/gvenzl/oci-oracle-xe/blob/0cedd27ab04771789f1425639434d33940935f6c/container-entrypoint.sh
+function run_custom_scripts_recursive {
+  local f
+  for f in "${1}"/*; do
+    case "${f}" in
+      *.sh)
+        if [ -x "${f}" ]; then
+            echo -e "\nCONTAINER: running ${f} ...";     "${f}";     echo "CONTAINER: DONE: running ${f}"
+        else
+            echo -e "\nCONTAINER: sourcing ${f} ...";    . "${f}"    echo "CONTAINER: DONE: sourcing ${f}"
+        fi;
+        ;;
+
+      *)
+        if [ -d "${f}" ]; then
+            echo -e "\nCONTAINER: descending into ${f} ...";    run_custom_scripts_recursive "${f}";    echo "CONTAINER: DONE: descending into ${f}"
+        else
+            echo -e "\nCONTAINER: ignoring ${f}"
+        fi;
+        ;;
+    esac
+    echo "";
+  done
+}
+
 if [ -z "$(ls -A ${NAGIOS_HOME}/etc)" ]; then
     echo "Started with empty ETC, copying example data in-place"
     cp -Rp /orig/etc/* ${NAGIOS_HOME}/etc/
@@ -32,6 +97,10 @@ if [ "${NAGIOSADMIN_USER}" != "nagiosadmin" ]; then
     sed -i "s|\(authorized_for_all_service_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
     sed -i "s|\(authorized_for_all_host_commands=\).*|\1${NAGIOSADMIN_USER}|g" /opt/nagios/etc/cgi.cfg
 fi
+
+# TODO
+# If it is the first container start, run custom scripts
+# run_custom_scripts /container-entrypoint-initdb.d
 
 # Remove pid files
 
