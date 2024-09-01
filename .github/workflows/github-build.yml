@@ -59,6 +59,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Checkout
         uses: actions/checkout@v4
@@ -80,8 +86,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ github.ref }}
-      -
-        name: Docker Buildx (build and cache)
+      - name: Docker Buildx (build and cache) for DockerHub
         run: |
           docker buildx build \
             --progress plain \
@@ -90,6 +95,15 @@ jobs:
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
             --output "type=image,push=true" .
+      - name: Docker Buildx (build and cache) for GitHub Container Registry
+        run: |
+          docker buildx build \
+            --progress plain \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
+            --label "gitCommit=${{ github.sha }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --tag ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+            --output "type=image,push=true" .            
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
