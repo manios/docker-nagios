@@ -3,7 +3,7 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
-## Build 23 (2024-09-25)
+## Build 23 (2024-09-29)
 
 * Nagios core: v4.5.5
 * Nagios plugins: v2.4.12
@@ -12,6 +12,8 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 ### Features
 
 * Upgrade to Nagios Core `4.5.5`. ([#81](https://github.com/manios/docker-nagios/issues/81))
+* Push container images to Github Container Registry ([#83](https://github.com/manios/docker-nagios/issues/83))
+* Re-enable Docker image caching using Cache action ([#82](https://github.com/manios/docker-nagios/issues/82))
 
 ## Build 22 (2024-08-30)
 
@@ -25,7 +27,7 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 
 ### Bug Fixes
 
-* Fix error shown in Hosts and Services web page when running the container with a user other than nagiosadmin (#78) Thanks [@pathia](https://github.com/pathia)!
+* Fix error shown in Hosts and Services web page when running the container with a user other than nagiosadmin  ([#78](https://github.com/manios/docker-nagios/issues/78)) Thanks [@pathia](https://github.com/pathia)!
 
 ## Build 21 (2024-08-15)
 
