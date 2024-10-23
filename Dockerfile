@@ -29,29 +29,12 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
-                        php7 php7-gd php7-cli runit parallel ssmtp \
+                        php7 php7-gd php7-cli runit parallel ssmtp iputils-ping \
                         libltdl libintl openssl-dev php7-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
                         net-snmp-tools bind-tools gd gd-dev && \
-                                                \
-    : '# For x86 the binary is : gosu-i386' && \
-    : '# For x64 the binary is : gosu-amd64' && \
-    : '# For arm-v6 the binary is : gosu-armel' && \
-    : '# For arm-v7 the binary is : gosu-armhf' && \
-    : '# For arm64 the binary is : gosu-arm64' && \
-    : '# For arm64/v8 the binary is : gosu-arm64' && \
-    : '#######################################' && \
-    : '# Creating an associative array with the platforms and their respective gosu release DOES NOT WORK in /bin/sh' && \
-    echo "Arguments TARGETPLATFORM: ${TARGETPLATFORM} and BUILDPLATFORM: ${BUILDPLATFORM}" && \
-    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
-    gosuPlatform=$(cat mygosuver.txt) && \
-    echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
-    mv gosu /bin/ && \
-    chmod 755 /bin/gosu && \
-    chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
 
 
@@ -119,17 +102,15 @@ RUN    ls -l /tmp && cd /tmp && \
 # Compile Nagios Plugins
 RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n ===========================\n" && \
        ls -lia /tmp && cd /tmp && \
-       cd  /tmp/nagios-plugins-release-${NAGIOS_PLUGINS_VERSION} && \
-       ./autogen.sh && \
-       ./configure  --with-nagios-user=${NAGIOS_USER} \
-                    --with-nagios-group=${NAGIOS_USER} \
-                    --with-openssl \
+       cd  /tmp/nagios-plugins-release-${NAGIOS_PLUGINS_VERSION}         && \
+       ./autogen.sh &&                                                      \
+       ./configure  --with-nagios-user=${NAGIOS_USER}                       \
+                    --with-nagios-group=${NAGIOS_USER}                      \
+                    --with-openssl                                          \
                     --prefix=${NAGIOS_HOME}                                 \
-                    --with-ping-command="/bin/gosu root /bin/ping -n -w %d -c %d %s"  \
-                    --with-ipv6                                             \
-                    --with-ping6-command="/bin/gosu root /bin/ping6 -n -w %d -c %d %s"  && \
-       echo "Nagios plugins configured: OK" && \
-       echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
+                    --with-ipv6                                          && \
+       echo "Nagios plugins configured: OK"                              && \
+       echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": "         && \
        egrep -rl "\<sys\/poll.h\>" . | xargs sed -i 's/<sys\/poll.h>/<poll.h>/g' && \
        egrep -rl "\"sys\/poll.h\"" . | xargs sed -i 's/"sys\/poll.h"/"poll.h"/g' && \
        echo "OK" && \
