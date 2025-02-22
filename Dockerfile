@@ -20,7 +20,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOSADMIN_PASS=nagios \
     NAGIOS_VERSION=4.5.9 \
     NAGIOS_PLUGINS_VERSION=2.4.12 \
-    NRPE_VERSION=4.1.1 \
+    NRPE_VERSION=4.1.3 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
 
@@ -48,7 +48,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
     gosuPlatform=$(cat mygosuver.txt) && \
     echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.13/${gosuPlatform}"  && \
+    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.17/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
@@ -203,7 +203,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="27" \
+      build="28" \
       org.opencontainers.image.title="Nagios" \
       org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
       org.opencontainers.image.vendor="Nagios" \
@@ -212,7 +212,7 @@ LABEL name="Nagios" \
       org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
       org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
       org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
-      org.opencontainers.image.version="27"
+      org.opencontainers.image.version="28"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
