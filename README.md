@@ -1,6 +1,6 @@
 # Docker Nagios
 
-Docker image for [Nagios](https://www.nagios.org/), the Industry Standard In IT Infrastructure Monitoring. Nagios Core is running on [Alpine Linux](https://alpinelinux.org/), using [Apache HTTP](http://httpd.apache.org/) as a web server and [sSMTP](https://wiki.debian.org/sSMTP) as mail agent for email notifications.
+Docker image for [Nagios](https://www.nagios.org/), the Industry Standard in IT Infrastructure Monitoring. Nagios Core is running on [Alpine Linux](https://alpinelinux.org/), using [Apache HTTP](http://httpd.apache.org/) as a web server and [sSMTP](https://wiki.debian.org/sSMTP) as mail agent for email notifications.
 
 The image is inspired by [JasonRivers/Docker-Nagios](https://github.com/JasonRivers/Docker-Nagios) image (Kudos to Jason!) but follows a different approach targetted to lightweight size and basic features.
 
