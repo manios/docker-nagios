@@ -51,7 +51,6 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.17/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
-    chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
 
 
@@ -125,9 +124,9 @@ RUN    echo -e "\n\n ===========================\n  Configure Nagios Plugins\n =
                     --with-nagios-group=${NAGIOS_USER} \
                     --with-openssl \
                     --prefix=${NAGIOS_HOME}                                 \
-                    --with-ping-command="/bin/gosu root /bin/ping -n -w %d -c %d %s"  \
+                    --with-ping-command="/bin/ping -n -w %d -c %d %s"  \
                     --with-ipv6                                             \
-                    --with-ping6-command="/bin/gosu root /bin/ping6 -n -w %d -c %d %s"  && \
+                    --with-ping6-command="/bin/ping6 -n -w %d -c %d %s"  && \
        echo "Nagios plugins configured: OK" && \
        echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
        egrep -rl "\<sys\/poll.h\>" . | xargs sed -i 's/<sys\/poll.h>/<poll.h>/g' && \
