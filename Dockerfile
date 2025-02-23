@@ -51,7 +51,6 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.17/${gosuPlatform}"  && \
     mv gosu /bin/ && \
     chmod 755 /bin/gosu && \
-    chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
 
 
