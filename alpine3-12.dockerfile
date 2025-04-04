@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.21 AS builder-base
+FROM alpine:3.12 AS builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -29,8 +29,8 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} -g ${NAGIOS_USER} && \
     apk update && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
-                        php83 php83-gd php83-cli runit parallel ssmtp \
-                        libltdl libintl openssl-dev php83-apache2 procps tzdata \
+                        php7 php7-gd php7-cli runit parallel ssmtp \
+                        libltdl libintl openssl-dev php7-apache2 procps tzdata \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
@@ -67,7 +67,7 @@ RUN apk update && \
     apk add --no-cache build-base automake libtool autoconf py-docutils gnutls  \
                         gnutls-dev g++ make alpine-sdk build-base gcc autoconf \
                         gettext-dev linux-headers openssl-dev net-snmp net-snmp-tools \
-                        libcrypto3 libpq musl libldap libssl3 libdbi freeradius-client mariadb-connector-c \
+                        libcrypto1.1 libpq musl libldap libssl1.1 libdbi freeradius-client mariadb-connector-c \
                         openssh-client bind-tools samba-client fping grep rpcbind \
                         lm-sensors net-snmp-tools \
                         file freeradius-client-dev libdbi-dev libpq linux-headers mariadb-dev \
