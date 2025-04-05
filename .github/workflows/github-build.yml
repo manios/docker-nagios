@@ -148,7 +148,7 @@ jobs:
           SHA256_ARM64=$(cat manifest1.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm64") | .digest')
           SHA256_I386=$(cat manifest1.json  | ./jq -r '.manifests[]| select(.platform.architecture == "386")   | .digest')
           SHA256_ARMV6=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v6") | .digest')
-          SHA256_ARMV6=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v7") | .digest')
+          SHA256_ARMV7=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v7") | .digest')
           echo "Creating new manifest: ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}"
           set -eux
           docker manifest create --amend ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
