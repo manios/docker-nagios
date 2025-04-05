@@ -152,17 +152,17 @@ jobs:
           echo "Creating new manifest: ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}"
           set -eux
           docker manifest create --amend ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
-             "${GITHUB_ACTOR}/nagios:@${SHA256_AMD64}" \
-             "${GITHUB_ACTOR}/nagios:@${SHA256_ARM64}" \
-             "${GITHUB_ACTOR}/nagios:@${SHA256_I386}"  \
-             "${GITHUB_ACTOR}/nagios:@${SHA256_ARMV6}" \
-             "${GITHUB_ACTOR}/nagios:@${SHA256_ARMV7}"
+             "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}"
           echo "Annotating new manifest: ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} with platforms and architectures"
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios:@${SHA256_AMD64}" --arch amd64 --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios:@${SHA256_ARM64}" --arch arm64 --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios:@${SHA256_I386}"  --arch 386   --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios:@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios:@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
+          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" --arch amd64 --os linux
+          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" --arch arm64 --os linux
+          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
+          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
+          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
       - name: 'Push Dockerhub to GitHub Container Registry'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
