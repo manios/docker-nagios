@@ -88,50 +88,50 @@ jobs:
             ${{ runner.os }}-buildx-${{ github.ref }}
       - name: Docker Buildx (build and cache)
         run: |
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm64 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
-            --output "type=image,push=false" -f Dockerfile .
+          # docker buildx build \
+          #   --progress plain \
+          #   --cache-from "type=local,src=/tmp/.buildx-cache" \
+          #   --cache-to "type=local,dest=/tmp/.buildx-cache" \
+          #   --platform linux/386,linux/amd64,linux/arm64 \
+          #   --label "gitCommit=${{ github.sha }}" \
+          #   --label "org.opencontainers.image.revision=${{ github.sha }}" \
+          #   --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
+          #   --output "type=image,push=false" -f Dockerfile .
       - name: Docker Buildx (build and cache) for linux/arm/v6,linux/arm/v7 (Alpine 3.12)
         run: |
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/arm/v6,linux/arm/v7 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
-            --output "type=image,push=false" -f alpine3-12.dockerfile .
+          # docker buildx build \
+          #   --progress plain \
+          #   --cache-from "type=local,src=/tmp/.buildx-cache" \
+          #   --cache-to "type=local,dest=/tmp/.buildx-cache" \
+          #   --platform linux/arm/v6,linux/arm/v7 \
+          #   --label "gitCommit=${{ github.sha }}" \
+          #   --label "org.opencontainers.image.revision=${{ github.sha }}" \
+          #   --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
+          #   --output "type=image,push=false" -f alpine3-12.dockerfile .
       - name: 'Docker Buildx: Push to Dockerhub'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
           echo "Will push image ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm64 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f Dockerfile .
+          # docker buildx build \
+          #   --progress plain \
+          #   --cache-from "type=local,src=/tmp/.buildx-cache" \
+          #   --platform linux/386,linux/amd64,linux/arm64 \
+          #   --label "gitCommit=${{ github.sha }}" \
+          #   --label "org.opencontainers.image.revision=${{ github.sha }}" \
+          #   --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
+          #   --output "type=image,push=true" -f Dockerfile .
       - name: 'Docker Buildx: Push to Dockerhub for linux/arm/v6,linux/arm/v7 (Alpine 3.12)'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
           echo "Will push image ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/arm/v6,linux/arm/v7 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f alpine3-12.dockerfile .
+          # docker buildx build \
+          #   --progress plain \
+          #   --cache-from "type=local,src=/tmp/.buildx-cache" \
+          #   --platform linux/arm/v6,linux/arm/v7 \
+          #   --label "gitCommit=${{ github.sha }}" \
+          #   --label "org.opencontainers.image.revision=${{ github.sha }}" \
+          #   --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
+          #   --output "type=image,push=true" -f alpine3-12.dockerfile .
       - name: Create a new unified manifest for all images
         run: |
           echo "Download manifest of ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }}"
