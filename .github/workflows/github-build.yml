@@ -163,6 +163,19 @@ jobs:
           docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
           docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
           docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
+          echo "Creating new manifest: ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}"
+          docker manifest create --amend ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+             "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" \
+             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}"
+          echo "Annotating new manifest: ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} with platforms and architectures"
+          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" --arch amd64 --os linux
+          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" --arch arm64 --os linux
+          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
+          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
+          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
       - name: 'Push Dockerhub to GitHub Container Registry'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
@@ -172,9 +185,9 @@ jobs:
         run: |
           echo "== This branch is : ${GITHUB_REF}"
           echo "Will push image ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to GitHub Container Registry"
-          # TODO
+          docker manifest push ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }}
-          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }}
-          # docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
+          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
+          docker buildx imagetools inspect ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
+
