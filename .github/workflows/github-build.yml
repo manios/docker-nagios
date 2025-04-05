@@ -215,7 +215,7 @@ jobs:
           docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
           docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
           docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
-      - name: 'Push to GitHub Container Registry'
+      - name: 'Push manifest to DockerHub'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
           echo "Will push image manifest ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub Registry"
