@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.21 as builder-base
+FROM alpine:3.21 AS builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -58,7 +58,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
 ###   STAGE 2 COMPILE NAGIOS SOURCES   ###
 ### ================================== ###
 
-FROM builder-base as builder-compile
+FROM builder-base AS builder-compile
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
