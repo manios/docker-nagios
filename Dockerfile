@@ -104,6 +104,8 @@ RUN    ls -l /tmp && cd /tmp && \
        : 'Apply patches to Nagios Core sources:' && \
        echo -n "Replacing \"<sys\/poll.h>\" with \"<poll.h>\": " && \
        sed -i 's/<sys\/poll.h>/<poll.h>/g' ./include/config.h && \
+       echo -n "Patch worker.c for time64 issue 1025" && \
+       patch lib/worker.c time64-issue1025.patch && \
        echo "OK" && \
        echo -e "\n\n ===========================\n Compile Nagios Core\n ===========================\n" && \
        make all && \
