@@ -3,11 +3,26 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 30 (2025-04-10)
+
+* Nagios core: v4.5.9
+* Nagios plugins: v2.4.12
+* NRPE: 4.1.3
+* Alpine:
+    * 3.21.3: `amd64`, `i386`, `arm64`
+    * 3.12.12: `arm/v6`, `arm/v7`
+
+### Features
+
+* Use Alpine 3.21 as base image for `amd64`, `i386`, `arm64`. Until [nagioscore #1025](https://github.com/NagiosEnterprises/nagioscore/issues/1025) is fixed, we are going to use 3.12 as base image for `arm/v6` and `arm/v7`. ([#92](https://github.com/manios/docker-nagios/issues/92))
+
 ## Build 29 (2025-02-23)
 
 * Nagios core: v4.5.9
 * Nagios plugins: v2.4.12
 * NRPE: 4.1.3
+* Alpine:
+    * 3.12.12: `amd64`, `i386`, `arm64`, `arm/v6`, `arm/v7`
 
 ### Bug Fixes
 
@@ -18,6 +33,8 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 * Nagios core: v4.5.9
 * Nagios plugins: v2.4.12
 * NRPE: 4.1.3
+* Alpine:
+    * 3.12.12: `amd64`, `i386`, `arm64`, `arm/v6`, `arm/v7`
 
 ### Features
 
@@ -28,6 +45,8 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 * Nagios core: v4.5.9
 * Nagios plugins: v2.4.12
 * NRPE: 4.1.1
+* Alpine:
+    * 3.12.12: `amd64`, `i386`, `arm64`, `arm/v6`, `arm/v7`
 
 ### Features
 
@@ -38,6 +57,8 @@ This Docker image contains more than one software (Nagios, Nagios plugins, NRPE,
 * Nagios core: v4.5.8
 * Nagios plugins: v2.4.12
 * NRPE: 4.1.1
+* Alpine:
+    * 3.12.12: `amd64`, `i386`, `arm64`, `arm/v6`, `arm/v7`
 
 ### Features
 
