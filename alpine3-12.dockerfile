@@ -18,7 +18,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.5.9 \
+    NAGIOS_VERSION=4.5.10 \
     NAGIOS_PLUGINS_VERSION=2.4.12 \
     NRPE_VERSION=4.1.3 \
     APACHE_LOCK_DIR=/var/run \
@@ -34,7 +34,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         libldap mariadb-connector-c freeradius-client-dev libpq libdbi \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
-                        net-snmp-tools bind-tools gd gd-dev && \
+                        net-snmp-tools bind-tools gd gd-dev bash && \
                                                 \
     : '# For x86 the binary is : gosu-i386' && \
     : '# For x64 the binary is : gosu-amd64' && \
@@ -202,7 +202,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="30" \
+      build="31-snapshot" \
       org.opencontainers.image.title="Nagios" \
       org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
       org.opencontainers.image.vendor="Nagios" \
@@ -211,7 +211,7 @@ LABEL name="Nagios" \
       org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
       org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
       org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
-      org.opencontainers.image.version="30"
+      org.opencontainers.image.version="31-snapshot"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
