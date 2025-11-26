@@ -35,22 +35,6 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
                         lm-sensors perl net-snmp-perl perl-net-snmp perl-crypt-x509 \
                         perl-timedate perl-libwww perl-text-glob samba-client openssh openssl \
                         net-snmp-tools bind-tools gd gd-dev bash && \
-                                                \
-    : '# For x86 the binary is : gosu-i386' && \
-    : '# For x64 the binary is : gosu-amd64' && \
-    : '# For arm-v6 the binary is : gosu-armel' && \
-    : '# For arm-v7 the binary is : gosu-armhf' && \
-    : '# For arm64 the binary is : gosu-arm64' && \
-    : '# For arm64/v8 the binary is : gosu-arm64' && \
-    : '#######################################' && \
-    : '# Creating an associative array with the platforms and their respective gosu release DOES NOT WORK in /bin/sh' && \
-    echo "Arguments TARGETPLATFORM: ${TARGETPLATFORM} and BUILDPLATFORM: ${BUILDPLATFORM}" && \
-    echo "$TARGETPLATFORM" | awk '{ gosuBinArr["linux/386"]="gosu-i386"; gosuBinArr["linux/amd64"]="gosu-amd64"; gosuBinArr["linux/arm/v6"]="gosu-armel"; gosuBinArr["linux/arm/v7"]="gosu-armhf"; gosuBinArr["linux/arm64"]="gosu-arm64"; gosuBinArr["linux/arm64/v8"]="gosu-arm64"; print gosuBinArr[$0];}' > mygosuver.txt && \
-    gosuPlatform=$(cat mygosuver.txt) && \
-    echo "Downloading ${gosuPlatform} for platform $TARGETPLATFORM" &&\
-    curl -L -o gosu "https://github.com/tianon/gosu/releases/download/1.19/${gosuPlatform}"  && \
-    mv gosu /bin/ && \
-    chmod 755 /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
 
 
