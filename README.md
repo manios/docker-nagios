@@ -12,7 +12,7 @@ Build Status:
 
 ## Supported tags and respective `Dockerfile` links
 
-* `4.5.9`, `4.5`, `latest` [(4.5.9/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
+* `4.5.10`, `4.5`, `latest` [(4.5.10/Dockerfile)](https://github.com/manios/docker-nagios/blob/master/Dockerfile)
 
 For more information about the image versions you may refer to the [CHANGELOG](https://github.com/manios/docker-nagios/blob/master/CHANGELOG.md)
 
@@ -98,6 +98,8 @@ docker run -d --name nagios \
     manios/nagios:latest
 ```
 
+For a detailed example you can have a look here: https://github.com/manios/docker-nagios/issues/96.
+
 ## Flavours
 
 This Docker image is designed with optimising resources usage in mind and is build for multiple hardware architectures. The following matrix can be used to determine if your hardware architecture is represented in a docker image tag:
@@ -119,6 +121,10 @@ To check if your Nagios configuration is OK, you can run the following while you
 ```bash
 docker exec -it mynagioscontainer bin/nagios -v etc/nagios.cfg
 ```
+
+## Custom plugins
+
+This image comes with the official [Nagios Plugins](https://github.com/nagios-plugins/nagios-plugins) preinstalled in order to remain lightweight in size. If you want to use custom plugins, you can install them in the `/opt/Custom-Nagios-Plugins` by using init scripts.
 
 ## Troubleshooting
 

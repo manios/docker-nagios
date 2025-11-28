@@ -3,6 +3,25 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 31 (2025-12-01)
+
+* Nagios core: v4.5.10
+* Nagios plugins: v2.4.12
+* NRPE: 4.1.3
+* Alpine:
+    * 3.22.2: `amd64`, `i386`, `arm64`
+    * 3.12.12: `arm/v6`, `arm/v7`
+
+### Features
+
+* Upgrade to Nagios Core `4.5.10`. ([#95](https://github.com/manios/docker-nagios/issues/95))
+* Add init script functionality. ([#96](https://github.com/manios/docker-nagios/issues/96))
+* Remove [gosu](https://github.com/tianon/gosu) from the image as it is not needed anymore.  ([#91](https://github.com/manios/docker-nagios/issues/91))
+
+### Bug Fixes
+
+* Modify `etc/resource.cfg` in order to include custom plugins directory.
+
 ## Build 30 (2025-04-10)
 
 * Nagios core: v4.5.9
