@@ -92,22 +92,11 @@ jobs:
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm64 \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
-            --output "type=image,push=false" -f Dockerfile .
-      - name: Docker Buildx (build and cache) for linux/arm/v6,linux/arm/v7 (Alpine 3.12)
-        run: |
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/arm/v6,linux/arm/v7 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
-            --output "type=image,push=false" -f alpine3-12.dockerfile .
+            --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+            --output "type=image,push=false" .
       - name: 'Docker Buildx: Push to Dockerhub'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
@@ -115,118 +104,23 @@ jobs:
           docker buildx build \
             --progress plain \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm64 \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
             --label "gitCommit=${{ github.sha }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f Dockerfile .
-      - name: 'Docker Buildx: Push to Dockerhub for linux/arm/v6,linux/arm/v7 (Alpine 3.12)'
-        run: |
-          echo "== This branch is : ${GITHUB_REF}"
-          echo "Will push image ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/arm/v6,linux/arm/v7 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f alpine3-12.dockerfile .
+            --tag ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+            --output "type=image,push=true" .
       - name: 'Docker Buildx: Push to GitHub Container Registry'
         run: |
           echo "== This branch is : ${GITHUB_REF}"
-          echo "Will push image ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/386,linux/amd64,linux/arm64 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f Dockerfile .
-      - name: 'Docker Buildx: Push to GitHub Container Registry for linux/arm/v6,linux/arm/v7 (Alpine 3.12)'
-        run: |
-          echo "== This branch is : ${GITHUB_REF}"
-          echo "Will push image ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub"
-          docker buildx build \
-            --progress plain \
-            --cache-from "type=local,src=/tmp/.buildx-cache" \
-            --platform linux/arm/v6,linux/arm/v7 \
-            --label "gitCommit=${{ github.sha }}" \
-            --label "org.opencontainers.image.revision=${{ github.sha }}" \
-            --tag ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} \
-            --output "type=image,push=true" -f alpine3-12.dockerfile .
-      - name: Download and configure jq
-        run: |
-          echo "Download jq"
-          wget https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64
-          echo "Configure jq"
-          mv jq-linux-amd64 jq
-          chmod 744 jq
-      - name: Create a new unified manifest for Dockerhub
-        run: |
-          echo "Download manifest of ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }}"
-          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} --raw > manifest1.json
-          echo "Download manifest of ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }}"
-          docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} --raw > manifest2.json
-          ls -l manifest*json
-          SHA256_AMD64=$(cat manifest1.json | ./jq -r '.manifests[]| select(.platform.architecture == "amd64") | .digest')
-          SHA256_ARM64=$(cat manifest1.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm64") | .digest')
-          SHA256_I386=$(cat manifest1.json  | ./jq -r '.manifests[]| select(.platform.architecture == "386")   | .digest')
-          SHA256_ARMV6=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v6") | .digest')
-          SHA256_ARMV7=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v7") | .digest')
-          echo "Creating new manifest: ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}"
-          set -eux
-          docker manifest create --amend ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
-             "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" \
-             "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" \
-             "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  \
-             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" \
-             "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}"
-          echo "Annotating new manifest: ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} with platforms and architectures"
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" --arch amd64 --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" --arch arm64 --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
-          docker manifest annotate ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} "${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
-      - name: Create a new unified manifest for GitHub Container Registry
-        run: |
-          echo "Download manifest of ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }}"
-          docker buildx imagetools inspect ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-21-${{ env.action_mytag }} --raw > manifest1.json
-          echo "Download manifest of ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }}"
-          docker buildx imagetools inspect ghcr.io/${GITHUB_ACTOR}/nagios:alpine-3-12-${{ env.action_mytag }} --raw > manifest2.json
-          ls -l manifest*json
-          SHA256_AMD64=$(cat manifest1.json | ./jq -r '.manifests[]| select(.platform.architecture == "amd64") | .digest')
-          SHA256_ARM64=$(cat manifest1.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm64") | .digest')
-          SHA256_I386=$(cat manifest1.json  | ./jq -r '.manifests[]| select(.platform.architecture == "386")   | .digest')
-          SHA256_ARMV6=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v6") | .digest')
-          SHA256_ARMV7=$(cat manifest2.json | ./jq -r '.manifests[]| select(.platform.architecture == "arm")   | select(.platform.variant == "v7") | .digest')
-          echo "Creating new manifest: ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}"
-          set -eux
-          docker manifest create --amend ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
-             ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" \
-             ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" \
-             ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_I386}"  \
-             ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" \
-             ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}"
-          echo "Annotating new manifest: ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} with platforms and architectures"
-          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_AMD64}" --arch amd64 --os linux
-          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARM64}" --arch arm64 --os linux
-          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_I386}"  --arch 386   --os linux
-          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV6}" --arch arm   --os linux --variant v6
-          docker manifest annotate ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} ghcr.io/"${GITHUB_ACTOR}/nagios@${SHA256_ARMV7}" --arch arm   --os linux --variant v7
-      - name: 'Push manifest to DockerHub'
-        run: |
-          echo "== This branch is : ${GITHUB_REF}"
-          echo "Will push image manifest ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to DockerHub Registry"
-          docker manifest push ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
-      - name: 'Push manifest to GitHub Container Registry'
-        run: |
-          echo "== This branch is : ${GITHUB_REF}"
           echo "Will push image ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} to GitHub Container Registry"
-          docker manifest push ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
+          docker buildx build \
+            --progress plain \
+            --cache-from "type=local,src=/tmp/.buildx-cache" \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
+            --label "gitCommit=${{ github.sha }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --tag ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }} \
+            --output "type=image,push=true" .
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
-          docker buildx imagetools inspect ghcr.io/${GITHUB_ACTOR}/nagios:${{ env.action_mytag }}
-
