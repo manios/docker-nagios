@@ -19,7 +19,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
     NAGIOS_VERSION=4.5.12 \
-    NAGIOS_PLUGINS_VERSION=2.4.12 \
+    NAGIOS_PLUGINS_VERSION=2.5 \
     NRPE_VERSION=4.1.3 \
     APACHE_LOCK_DIR=/var/run \
     APACHE_LOG_DIR=/var/log/apache2
@@ -190,7 +190,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="34" \
+      build="35-snapshot" \
       org.opencontainers.image.title="Nagios" \
       org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
       org.opencontainers.image.vendor="Nagios" \
@@ -199,7 +199,7 @@ LABEL name="Nagios" \
       org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
       org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
       org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
-      org.opencontainers.image.version="34"
+      org.opencontainers.image.version="35-snapshot"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
