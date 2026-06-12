@@ -3,6 +3,18 @@
 
 This Docker image contains more than one software (Nagios, Nagios plugins, NRPE, Apache HTTPD, etc.) with different versions. Hence we decided to name the releases with the naming `Build - <number>` which will have an incremental unsigned integer. In this document we will describe the contents of every image in every build.
 
+## Build 36 (2026-06-12)
+
+* Nagios core: v4.5.13
+* Nagios plugins: v2.5.0
+* NRPE: 4.1.3
+* Alpine:
+    * 3.23.4: `amd64`, `i386`, `arm64`,`arm/v6`, `arm/v7`
+
+### Features
+
+* Upgrade to Nagios Core `4.5.13`. ([#102](https://github.com/manios/docker-nagios/issues/102))
+
 ## Build 35 (2026-04-03)
 
 * Nagios core: v4.5.12
