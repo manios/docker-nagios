@@ -4,7 +4,7 @@
 
 # https://www.docker.com/blog/docker-arm-virtual-meetup-multi-arch-with-buildx/
 
-FROM alpine:3.23 AS builder-base
+FROM alpine:3.24 AS builder-base
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -18,7 +18,7 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_FQDN=nagios.example.com \
     NAGIOSADMIN_USER=nagiosadmin \
     NAGIOSADMIN_PASS=nagios \
-    NAGIOS_VERSION=4.5.13 \
+    NAGIOS_VERSION=4.5.14 \
     NAGIOS_PLUGINS_VERSION=2.5 \
     NRPE_VERSION=4.1.3 \
     APACHE_LOCK_DIR=/var/run \
@@ -190,7 +190,7 @@ LABEL name="Nagios" \
       nrpeVersion=$NRPE_VERSION \
       homepage="https://www.nagios.com/" \
       maintainer="Christos Manios <maniopaido@gmail.com>" \
-      build="36" \
+      build="37-snapshot" \
       org.opencontainers.image.title="Nagios" \
       org.opencontainers.image.description="Nagios, the Industry Standard In IT Infrastructure Monitoring" \
       org.opencontainers.image.vendor="Nagios" \
@@ -199,7 +199,7 @@ LABEL name="Nagios" \
       org.opencontainers.image.url="https://hub.docker.com/r/manios/nagios" \
       org.opencontainers.image.source="https://github.com/manios/docker-nagios" \
       org.opencontainers.image.documentation="https://github.com/manios/docker-nagios/blob/master/README.md" \
-      org.opencontainers.image.version="36"
+      org.opencontainers.image.version="37-snapshot"
 
 RUN mkdir -p ${NAGIOS_HOME}  && \
     mkdir -p /orig/apache2
